@@ -192,7 +192,7 @@ can be downloaded from https://github.com/ampas/aces_container
 
     to run the optional unit tests:
 
-        $ sudo make check
+        $ sudo make checkcd
 
 * Docker
 
@@ -215,6 +215,19 @@ can be downloaded from https://github.com/ampas/aces_container
     run ctlrender
         
         $ ctlrender -help 
+
+    run unit tests
+        
+        $ cd build/unittest/IlmCtl
+        $ ./IlmCtlTest 
+        $ cd ../IlmCtlMath
+        $ ./IlmCtlMathTest
+        $ cd ../IlmImfCtl
+        $ ./IlmImfCtlTest
+        $ cd ../../../unittest/ctlrender
+        $ bash test.sh ctlrender
+
+
 
 ## License ##
  
