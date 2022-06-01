@@ -212,7 +212,7 @@ can be downloaded from https://github.com/ampas/aces_container
 
         $ docker run -it --rm -v /mnt/c/temp:/tmp/ ctl:latest
 
-    run ctlrender
+    run ctlrender help
         
         $ ctlrender -help 
 
