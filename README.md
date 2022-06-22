@@ -227,8 +227,9 @@ can be downloaded from https://github.com/ampas/aces_container
         $ cd ../../../unittest/ctlrender
         $ bash test.sh ctlrender
 
-    run Ctest
-        $ cd build
+    run Ctest   
+    
+        $ cd build   
         $ ctest -V
 
 
