@@ -3,7 +3,15 @@
 set -x
 set -u
 
-valgrind -s --error-exitcode=1 --leak-check=full ./unittest/IlmCtl/IlmCtlTest 
-valgrind -s --error-exitcode=1 --leak-check=full ./unittest/IlmCtlMath/IlmCtlMathTest 
-valgrind -s --error-exitcode=1 --leak-check=full ./unittest/IlmImfCtl/IlmImfCtlTest
-valgrind -s --error-exitcode=1 --leak-check=full ./unittest/IlmImfCtl/IlmImfCtlTest
+# get initial path before changing it
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+
+cd ./unittest/IlmCtl/
+valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes ./IlmCtlTest 
+cd ../IlmCtlMath/
+valgrind -s --error-exitcode=1 --leak-check=full ./IlmCtlMathTest 
+cd ../IlmImfCtl/
+valgrind -s --error-exitcode=1 --leak-check=full ./IlmImfCtlTest
+
+# go back to initial path
+cd $SCRIPTPATH
