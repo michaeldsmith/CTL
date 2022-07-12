@@ -22,7 +22,7 @@ test_03_status=$?
 test_03_label="IlmImfCtlTest"
 
 cd ../ctlrender
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ctlrender ctlrender -force -ctl ../../unittest/ctlrender/unity.ctl ../../unittest/ctlrender/bars_nuke_10_be.dpx out.dpx 
+valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../build/ctlrender/ctlrender -force -ctl ../../unittest/ctlrender/unity.ctl ../../unittest/ctlrender/bars_nuke_10_be.dpx out.dpx 
 test_04_status=$? 
 test_04_label="ctlrender"
 
