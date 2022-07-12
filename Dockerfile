@@ -9,6 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y install cmake
 RUN apt-get -y install g++
 RUN apt-get -y install valgrind
+RUN apt-get -y install nano
 
 # install CTL dependencies
 RUN apt-get -y install libilmbase-dev
