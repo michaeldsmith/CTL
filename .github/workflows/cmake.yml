@@ -2,7 +2,13 @@ name: CMake
 
 on:
   push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
   pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
