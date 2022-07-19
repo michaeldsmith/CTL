@@ -192,7 +192,7 @@ can be downloaded from https://github.com/ampas/aces_container
 
     to run the optional unit tests:
 
-        $ sudo make checkcd
+        $ sudo make check
 
 * Docker
 
