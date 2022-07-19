@@ -9,12 +9,14 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y install cmake
 RUN apt-get -y install g++
 RUN apt-get -y install valgrind
-RUN apt-get -y install nano
 
 # install CTL dependencies
 RUN apt-get -y install libilmbase-dev
 RUN apt-get -y install libopenexr-dev
 RUN apt-get -y install libtiff-dev
+
+# install utilities for convenience, not needed for CTL
+RUN apt-get -y install nano
 
 # build CTL
 WORKDIR /usr/src/CTL

@@ -63,7 +63,7 @@ add_subdirectory(doc)
 add_subdirectory(lib)
 add_subdirectory(ctlrender)
 add_subdirectory(OpenEXR_CTL)
-# add_subdirectory(unittest EXCLUDE_FROM_ALL)
+#add_subdirectory(unittest EXCLUDE_FROM_ALL)
 add_subdirectory(unittest)
 
 # Add all targets to the build-tree export set
@@ -91,11 +91,11 @@ install(FILES "${PROJECT_BINARY_DIR}/CTLLibraryDepends.cmake" DESTINATION
 # add tests
 enable_testing()
 # valgrind
-find_program(BASH_PROGRAM bash)
-if (BASH_PROGRAM)
-  find_program(VALGRIND_PROGRAM valgrind)
-  if (VALGRIND_PROGRAM)
-    add_test("valgrind-test" ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/unittest/scripts/run_valgrind.sh)
-  endif (VALGRIND_PROGRAM)
-endif (BASH_PROGRAM)
+#find_program(BASH_PROGRAM bash)
+#if (BASH_PROGRAM)
+#  find_program(VALGRIND_PROGRAM valgrind)
+#  if (VALGRIND_PROGRAM)
+#    add_test("valgrind-test" ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/unittest/scripts/run_valgrind.sh)
+#  endif (VALGRIND_PROGRAM)
+#endif (BASH_PROGRAM)
 
