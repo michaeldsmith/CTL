@@ -91,5 +91,5 @@ jobs:
       working-directory: ${{github.workspace}}/build
       # Run valgrind using a bash script  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: pwd && ls && bash ./unittest/scripts/run_valgrind.sh
+      run: pwd && ls && bash ../unittest/scripts/run_valgrind.sh
       
