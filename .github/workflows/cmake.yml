@@ -74,7 +74,7 @@ jobs:
         sudo apt-get -y install zlib1g-dev &&
         git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
         cd openexr &&
-        git checkout RB-2.5 &&
+        git checkout RB-2.4 &&
         mkdir build &&
         cd build &&
         cmake .. &&
