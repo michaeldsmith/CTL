@@ -68,7 +68,18 @@ jobs:
     steps:
 
     - name: install dependencies
-      run: sudo apt-get -y install valgrind
+      run: |
+        cd ..
+        sudo apt-get -y install valgrind &&
+        sudo apt-get -y install zlib1g-dev &&
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake .. &&
+        make  &&
+        sudo make install
 
     - uses: actions/checkout@v3
 
@@ -79,7 +90,9 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: | 
+        cd ${{ github.workspace }}
+        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
     
     - name: Run Valgrind script
       working-directory: ${{github.workspace}}/build
