@@ -1,4 +1,4 @@
-name: CMake - Release - Test
+name: CMake - Release - Valgrind
 
 on:
   push:
