@@ -76,6 +76,7 @@ testParser ()
         interp.loadModule ("testScope2");
         interp.loadModule ("testLiterals");
         interp.loadModule ("example");
+#if 0
         interp.loadModule ("testComments");
         interp.loadModule ("testVSArrays");
         interp.loadModule ("testTypes");
@@ -96,7 +97,7 @@ testParser ()
         interp.loadModule ("testInterpolator");
         interp.loadModule ("testCtlVersion");
         interp.loadModule ("testExamples");
-
+#endif
 	cout << "ok\n" << endl;
     }
     catch (const std::exception &e)
