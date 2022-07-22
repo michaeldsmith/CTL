@@ -74,13 +74,14 @@ main (int argc, char *argv[])
 
     TEST (testEndOfLine);
     TEST (testParser);
-    TEST (testExamples);
 #if 0
+    TEST (testExamples);
+#endif
     TEST (testCppCall);
     TEST (testVarying);
     TEST (testVaryingReturn);
     TEST (testVaryingLookup);
     TEST (testHugeInit);
-#endif
+
     return 0;
 }
