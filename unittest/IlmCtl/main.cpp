@@ -79,9 +79,11 @@ main (int argc, char *argv[])
 #endif
     TEST (testCppCall);
     TEST (testVarying);
+#if 0
     TEST (testVaryingReturn);
     TEST (testVaryingLookup);
     TEST (testHugeInit);
+#endif
 
     return 0;
 }
