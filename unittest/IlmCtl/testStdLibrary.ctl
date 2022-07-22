@@ -816,14 +816,23 @@ int
 testStdLibrary ()
 {
 	print ("start testStdLibrary.ctl\n");
+	print ("start testEqualWithAbsErr()\n");
     testEqualWithAbsErr();
+	print ("start testChangeBuiltinConstants()\n");
     testChangeBuiltinConstants();
+	print ("start testBuiltinConstants()\n");
     testBuiltinConstants();
+	print ("start testClassification()\n");
     testClassification ();
+	print ("start testMathFunctions()\n");
     testMathFunctions();
+	print ("start testVecMatrixFunctions()\n");
     testVecMatrixFunctions();
+	print ("start testRgbXyzFunctions()\n");
     testRgbXyzFunctions();
+	print ("start testXyzLuvFunctions()\n");
     testXyzLuvFunctions();
+	print ("start testXyzLabFunctions()\n");
     testXyzLabFunctions();
 	print ("done testStdLibrary.ctl\n");
     return 0;
