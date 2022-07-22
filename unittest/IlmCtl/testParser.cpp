@@ -75,8 +75,8 @@ testParser ()
         interp.loadModule ("testScope");
         interp.loadModule ("testScope2");
         interp.loadModule ("testLiterals");
+#if 0 
         interp.loadModule ("example");
-#if 0   
         interp.loadModule ("testComments");
         interp.loadModule ("testVSArrays");
         interp.loadModule ("testTypes");
