@@ -816,8 +816,8 @@ int
 testStdLibrary ()
 {
 	print ("start testStdLibrary.ctl\n");
-	print ("start testEqualWithAbsErr()\n");
-    testEqualWithAbsErr();
+	//print ("start testEqualWithAbsErr()\n");
+    //testEqualWithAbsErr();
 	print ("start testChangeBuiltinConstants()\n");
     testChangeBuiltinConstants();
 	print ("start testBuiltinConstants()\n");
