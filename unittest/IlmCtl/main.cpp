@@ -81,8 +81,8 @@ main (int argc, char *argv[])
     TEST (testVarying);
 #if 0
     TEST (testVaryingReturn);
-    TEST (testVaryingLookup);
 #endif
+    TEST (testVaryingLookup);
     TEST (testHugeInit);
 
 
