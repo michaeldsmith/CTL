@@ -81,7 +81,9 @@ testParser ()
         interp.loadModule ("testVSArrays");
 #endif
         interp.loadModule ("testTypes");
+#if 0
         interp.loadModule ("testLoops");
+#endif
         interp.loadModule ("testStdLibrary");
         interp.loadModule ("testLookupTables");
         interp.loadModule ("testCast");
