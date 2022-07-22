@@ -76,10 +76,11 @@ main (int argc, char *argv[])
     TEST (testParser);
     TEST (testExamples);
     TEST (testCppCall);
+#if 0
     TEST (testVarying);
     TEST (testVaryingReturn);
     TEST (testVaryingLookup);
     TEST (testHugeInit);
-
+#endif
     return 0;
 }
