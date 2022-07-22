@@ -815,6 +815,7 @@ testXyzLabFunctions()
 int
 testStdLibrary ()
 {
+	print ("start testStdLibrary.ctl\n");
     testEqualWithAbsErr();
     testChangeBuiltinConstants();
     testBuiltinConstants();
@@ -824,6 +825,7 @@ testStdLibrary ()
     testRgbXyzFunctions();
     testXyzLuvFunctions();
     testXyzLabFunctions();
+	print ("done testStdLibrary.ctl\n");
     return 0;
 }
 
