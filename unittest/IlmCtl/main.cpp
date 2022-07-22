@@ -74,8 +74,8 @@ main (int argc, char *argv[])
 
     TEST (testEndOfLine);
     TEST (testParser);
-#if 0
     TEST (testExamples);
+#if 0
     TEST (testCppCall);
     TEST (testVarying);
     TEST (testVaryingReturn);
