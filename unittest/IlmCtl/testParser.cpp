@@ -78,8 +78,8 @@ testParser ()
         interp.loadModule ("example");
 #if 0
         interp.loadModule ("testComments");
-#endif
         interp.loadModule ("testVSArrays");
+#endif
         interp.loadModule ("testTypes");
         interp.loadModule ("testLoops");
         interp.loadModule ("testStdLibrary");
