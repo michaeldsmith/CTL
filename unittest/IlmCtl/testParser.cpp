@@ -75,7 +75,6 @@ testParser ()
         interp.loadModule ("testScope");
         interp.loadModule ("testScope2");
         interp.loadModule ("testLiterals");
-#if 0 
         interp.loadModule ("example");
         interp.loadModule ("testComments");
         interp.loadModule ("testVSArrays");
@@ -97,7 +96,6 @@ testParser ()
         interp.loadModule ("testInterpolator");
         interp.loadModule ("testCtlVersion");
         interp.loadModule ("testExamples");
-#endif
 
 	cout << "ok\n" << endl;
     }
