@@ -66,7 +66,7 @@ using namespace std;
 namespace Ctl {
 namespace {
 
-#if 0
+#if 1
     #include <iostream>
     #define debug(x) (cout << x << endl)
     #define debug_only(x) x

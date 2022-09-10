@@ -426,11 +426,17 @@ testPassMVSA ()
 int
 all()
 {
+    print("\nCalling function testVSA()\n");
     testVSA();
+    print("\nCalling function testSize()\n");
     testSize();
+    print("\nCalling function testReturns()\n");
     testReturns();
+    print("\nCalling function testLoops()\n");
     testLoops();
+    print("\nCalling function testPassVSA()\n");
     testPassVSA();
+    print("\nCalling function testPassMVSA()\n");
     testPassMVSA();
     return 100000000;
 }

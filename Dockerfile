@@ -32,7 +32,7 @@ RUN apt-get -y install libtiff-dev
 WORKDIR /usr/src/CTL
 COPY . .
 WORKDIR /usr/src/CTL/build
-RUN cmake ..
+RUN cmake .. -DCMAKE_BUILD_TYPE=asan
 RUN make
 RUN make install
 
