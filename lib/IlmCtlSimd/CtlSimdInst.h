@@ -84,11 +84,11 @@ class SimdInst
     virtual void	execute (SimdBoolMask &mask,
 				 SimdXContext &xcontext) const = 0;
 
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
+//#pragma GCC push_options
+//#pragma GCC optimize ("O0")
     void		executePath (SimdBoolMask &mask,
 				     SimdXContext &xcontext) const;
-#pragma GCC pop_options
+//#pragma GCC pop_options
 
     virtual void	print (int indent) const = 0;
     void		printPath (int indent) const;
