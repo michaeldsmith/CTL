@@ -41,14 +41,16 @@ jobs:
       run: make check 
     
     - name: IlmCtlTest
+      if: always()
       working-directory: ${{github.workspace}}/build/unittest/IlmCtl
       run: ./IlmCtlTest 
 
     - name: IlmCtlMath
+      if: always()
       working-directory: ${{github.workspace}}/build/unittest/IlmCtlMath
       run: ./IlmCtlMathTest 
 
     - name: IlmImfCtl
+      if: always()
       working-directory: ${{github.workspace}}/build/unittest/IlmImfCtl
       run: ./IlmImfCtlTest 
-      
