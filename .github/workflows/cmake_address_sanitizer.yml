@@ -39,3 +39,16 @@ jobs:
     - name: Make and run unit tests
       working-directory: ${{github.workspace}}/build
       run: make check 
+    
+    - name: IlmCtlTest
+      working-directory: ${{github.workspace}}/build/unittest/IlmCtl
+      run: ./IlmCtlTest 
+
+    - name: IlmCtlMath
+      working-directory: ${{github.workspace}}/build/unittest/IlmCtlMath
+      run: ./IlmCtlMathTest 
+
+    - name: IlmImfCtl
+      working-directory: ${{github.workspace}}/build/unittest/IlmImfCtl
+      run: ./IlmImfCtlTest 
+      
