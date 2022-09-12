@@ -23,6 +23,19 @@ jobs:
 
     steps:
 
+    - name: install dependencies - openexr/ilmbase v2.5
+      run:  |
+        cd ..
+        sudo apt-get -y install zlib1g-dev &&
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake .. &&
+        make &&
+        sudo make install
+
     - uses: actions/checkout@v3
 
     - name: Configure CMake
