@@ -1,4 +1,4 @@
-
+if ( OpenEXR_FOUND )
 include_directories( ${OpenEXR_INCLUDE_DIRS} )
 link_directories( ${OpenEXR_LIBRARY_DIRS} )
 
@@ -29,3 +29,4 @@ file(
     DESTINATION
         ${CMAKE_CURRENT_BINARY_DIR}
 )
+endif()
