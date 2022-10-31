@@ -26,7 +26,7 @@ RUN apt-get -y install libilmbase-dev
 #RUN make
 #RUN make install
 
-#RUN apt-get -y install libtiff-dev
+RUN apt-get -y install libtiff-dev
 
 # build CTL
 WORKDIR /usr/src/CTL
