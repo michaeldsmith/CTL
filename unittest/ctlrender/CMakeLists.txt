@@ -1,6 +1,6 @@
 
 if ( OpenEXR_FOUND )
-add_definitions( -DHAVE_OPENEXR=1 )
+    add_definitions( -DHAVE_OPENEXR=1 )
 endif()
 
 add_test(
