@@ -23,8 +23,10 @@ jobs:
 
     steps:
 
-    - name: remove openexr
-      run: sudo apt-get --purge remove libtiff-dev -y
+    - name: remove libtiff
+      run: |
+      sudo apt-get --purge remove libtiff-dev -y &&
+      apt autoremove -y
 
     - uses: actions/checkout@v3
 
@@ -45,8 +47,10 @@ jobs:
 
     steps:
 
-    - name: remove openexr
-      run: sudo apt-get --purge remove libtiff-dev -y
+    - name: remove libtiff
+      run: |
+      sudo apt-get --purge remove libtiff-dev -y &&
+      apt autoremove -y
 
     - uses: actions/checkout@v3
 
