@@ -26,8 +26,8 @@ jobs:
     - name: remove libtiff
       run: sudo apt-get --purge remove libtiff-dev -y 
 
-    - name: autoremove libtiff
-      run: sudo apt-get autoremove -y 
+    - name: autoremove libtiff5
+      run: sudo apt-get --purge remove libtiff5 -y 
 
     - uses: actions/checkout@v3
 
@@ -48,11 +48,11 @@ jobs:
 
     steps:
 
-    - name: remove libtiff
+    - name: remove libtiff-dev
       run: sudo apt-get --purge remove libtiff-dev -y 
 
-    - name: autoremove libtiff
-      run: sudo apt-get autoremove -y 
+    - name: autoremove libtiff5
+      run: sudo apt-get --purge remove libtiff5 -y 
 
     - uses: actions/checkout@v3
 
