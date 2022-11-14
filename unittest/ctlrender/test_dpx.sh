@@ -1,4 +1,8 @@
 #! /bin/bash
+
+set -x
+set -u 
+
 CTLRENDER=$1
 
 mkdir output
