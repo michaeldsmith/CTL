@@ -28,16 +28,16 @@ RUN make install
 
 RUN apt-get update
 
-#RUN apt-get -y install libtiff-dev
+RUN apt-get -y install libtiff-dev
 
 # build CTL
 WORKDIR /usr/src/CTL
 COPY . .
 WORKDIR /usr/src/CTL/build
-RUN cmake ..
-RUN make
-RUN make install
+#RUN cmake ..
+#RUN make
+#RUN make install
 
 # finalize docker environment
-WORKDIR /usr/src/CTL
+#WORKDIR /usr/src/CTL
 

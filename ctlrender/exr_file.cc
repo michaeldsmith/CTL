@@ -52,6 +52,8 @@
 // THAN A.M.P.A.S., WHETHER DISCLOSED OR UNDISCLOSED.
 ///////////////////////////////////////////////////////////////////////////
 
+#include <fstream>
+
 #include "exr_file.hh"
 
 #if defined(HAVE_OPENEXR)

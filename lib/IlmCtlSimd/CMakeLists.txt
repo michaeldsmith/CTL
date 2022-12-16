@@ -46,8 +46,8 @@ add_library( IlmCtlSimd ${DO_SHARED}
 	"${CMAKE_CURRENT_BINARY_DIR}/halfExpLogTable.h"
 )
 
-target_link_libraries( IlmCtlSimd IlmCtlMath IlmCtl )
-target_link_libraries( IlmCtlSimd
+#target_link_libraries( IlmCtlSimd IlmCtlMath IlmCtl )
+target_link_libraries( IlmCtlSimd 
     PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
