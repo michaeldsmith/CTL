@@ -7,9 +7,9 @@ find_package( PkgConfig QUIET )
 # First, try to find just the right config files
 find_package(Imath CONFIG)
 if (NOT TARGET Imath::Imath)
-    # Couldn't find Imath::Imath, maybe it's older and has IlmBase?
-    find_package(IlmBase CONFIG)
-    if(IlmBase_FOUND)
+  message( STATUS " Couldn't find Imath::Imath, maybe it's older and has IlmBase?")
+  find_package(IlmBase CONFIG)
+  if(IlmBase_FOUND)
     message( STATUS "found IlmBase, version ${IlmBase_VERSION}" )
     ###
     ### Everyone (well, except for DPX) uses IlmBase, so

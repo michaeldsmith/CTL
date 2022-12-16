@@ -21,10 +21,12 @@ add_library( IlmCtl ${DO_SHARED}
  CtlStdType.cpp
 )
 
-#target_link_libraries( IlmCtl ${IlmBase_LDFLAGS_OTHER} )
+if ( NOT OpenEXR_FOUND )
+	target_link_libraries( IlmCtl ${IlmBase_LDFLAGS_OTHER} )
+endif()
 #target_link_libraries( IlmCtl Iex IlmThread Half )
 target_link_libraries (IlmCtl
-    PRIVATE
+    #PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
           $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
