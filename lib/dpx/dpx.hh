@@ -63,6 +63,11 @@
 #include <math.h>
 
 #include <half.h>
+//#ifndef __CUDACC__
+//using half = IMATH_INTERNAL_NAMESPACE::half;
+//#else
+//#include <cuda_fp16.h>
+//#endif
 
 #if !defined(TRUE)
 #define TRUE 1
