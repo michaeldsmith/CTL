@@ -34,9 +34,9 @@ RUN apt-get -y install libtiff-dev
 WORKDIR /usr/src/CTL
 COPY . .
 WORKDIR /usr/src/CTL/build
-#RUN cmake ..
-#RUN make
-#RUN make install
+RUN cmake ..
+RUN make
+RUN make install
 
 # finalize docker environment
 #WORKDIR /usr/src/CTL

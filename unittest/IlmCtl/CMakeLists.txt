@@ -16,7 +16,20 @@ include_directories( "${CMAKE_CURRENT_SOURCE_DIR}"
                      "${PROJECT_SOURCE_DIR}/lib/IlmCtlSimd" )
                      
 target_link_libraries( IlmCtlTest IlmCtlSimd IlmCtlMath IlmCtl )
-target_link_libraries( IlmCtlTest ${IlmBase_LIBRARIES} ${IlmBase_LDFLAGS_OTHER} )
+#target_link_libraries( IlmCtlTest ${IlmBase_LIBRARIES} ${IlmBase_LDFLAGS_OTHER} )
+target_link_libraries( IlmCtlTest 
+    #PRIVATE
+        # For OpenEXR/Imath 3.x:
+          $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
+          $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
+          $<$<TARGET_EXISTS:Imath::Half>:Imath::Half>
+        # For OpenEXR 2.4/2.5:
+          $<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
+          $<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
+          $<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
+          $<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
+          $<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
+    )
 
 add_test( IlmCtl IlmCtlTest )
 add_dependencies(check IlmCtlTest)
