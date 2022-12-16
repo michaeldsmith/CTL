@@ -1,8 +1,10 @@
 include_directories( "${CMAKE_CURRENT_SOURCE_DIR}" "${PROJECT_SOURCE_DIR}/lib/IlmCtl" "${PROJECT_SOURCE_DIR}/lib/IlmCtlMath" )
 
 add_executable( halfExpLogTable halfExpLogTable.cpp )
-#target_link_libraries( halfExpLogTable Half )
-target_link_libraries (halfExpLogTable
+if ( NOT OpenEXR_FOUND )
+  target_link_libraries( halfExpLogTable Half )
+else()
+  target_link_libraries (halfExpLogTable
     PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
@@ -15,6 +17,7 @@ target_link_libraries (halfExpLogTable
           $<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
           $<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
     )
+endif()
 
 add_custom_command( OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/halfExpLogTable.h"
                     COMMAND halfExpLogTable "${CMAKE_CURRENT_BINARY_DIR}/halfExpLogTable.h" "${CMAKE_CURRENT_BINARY_DIR}/halfExpLog.h"

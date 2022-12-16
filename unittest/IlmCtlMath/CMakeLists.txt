@@ -9,8 +9,10 @@ include_directories( "${CMAKE_CURRENT_SOURCE_DIR}"
                      "${PROJECT_SOURCE_DIR}/lib/IlmCtlMath" )
                      
 target_link_libraries( IlmCtlMathTest IlmCtlMath )
-#target_link_libraries( IlmCtlMathTest ${IlmBase_LIBRARIES} ${IlmBase_LDFLAGS_OTHER} )
-target_link_libraries( IlmCtlMathTest 
+if ( NOT OpenEXR_FOUND )
+  target_link_libraries( IlmCtlMathTest ${IlmBase_LIBRARIES} ${IlmBase_LDFLAGS_OTHER} )
+else()
+  target_link_libraries( IlmCtlMathTest 
     #PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
@@ -23,6 +25,7 @@ target_link_libraries( IlmCtlMathTest
           $<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
           $<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
     )
+endif()
 
 add_test( IlmCtlMath IlmCtlMathTest )
 add_dependencies(check IlmCtlMathTest)
