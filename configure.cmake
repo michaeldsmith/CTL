@@ -15,6 +15,10 @@ if (NOT TARGET Imath::Imath)
   #find_package(IlmBase QUIET)
   if(IlmBase_FOUND)
     message( STATUS "found IlmBase, version ${IlmBase_VERSION}" )
+    message( STATUS "  IlmBase_INCLUDE_DIRS : ${IlmBase_INCLUDE_DIRS}" )
+    message( STATUS "  IlmBase_LIBRARY_DIRS : ${IlmBase_LIBRARY_DIRS}" )
+    message( STATUS "  IlmBase_LDFLAGS : ${IlmBase_LDFLAGS}" )
+    message( STATUS "  IlmBase_LIBRARIES : ${IlmBase_LIBRARIES}" )
     ###
     ### Everyone (well, except for DPX) uses IlmBase, so
     ### make that a global setting

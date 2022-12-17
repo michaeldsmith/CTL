@@ -9,7 +9,7 @@ add_library( IlmImfCtl ${DO_SHARED}
 
 #target_link_libraries( IlmImfCtl IlmCtl IlmImf Iex IlmThread Half )
 target_link_libraries( IlmImfCtl 
-    PRIVATE
+    #PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
           $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
