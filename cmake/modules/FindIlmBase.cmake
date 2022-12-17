@@ -1,7 +1,7 @@
 #
 # A simple cmake find module for IlmBase
 #
-
+message( STATUS "DEBUG INFO: in FindIlmBase.cmake")
 find_package(PkgConfig QUIET)
 if(PKG_CONFIG_FOUND)
   pkg_check_modules(PC_ILMBASE QUIET IlmBase)
