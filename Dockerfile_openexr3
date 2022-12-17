@@ -39,5 +39,5 @@ RUN make
 RUN make install
 
 # finalize docker environment
-#WORKDIR /usr/src/CTL
+WORKDIR /usr/src/CTL
 
