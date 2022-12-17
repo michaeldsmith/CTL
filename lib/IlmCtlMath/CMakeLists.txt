@@ -6,10 +6,13 @@ add_library( IlmCtlMath ${DO_SHARED}
   CtlRbfInterpolator.cpp
 )
 
-#target_link_libraries( IlmCtlMath IlmCtl )
-#target_link_libraries( IlmCtlMath Imath )
-target_link_libraries (IlmCtlMath
-    PRIVATE
+target_link_libraries( IlmCtlMath IlmCtl )
+target_link_libraries( IlmCtlMath Imath )
+if ( NOT OpenEXR_FOUND )
+  target_link_libraries( IlmCtlMath Iex IlmThread Half )
+else()
+  target_link_libraries (IlmCtlMath
+    #PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
           $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
@@ -21,6 +24,7 @@ target_link_libraries (IlmCtlMath
           $<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
           $<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
     )
+endif()
 
 set_target_properties( IlmCtlMath PROPERTIES
   VERSION ${CTL_VERSION}

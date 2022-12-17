@@ -5,7 +5,7 @@ if ( NOT OpenEXR_FOUND )
   target_link_libraries( halfExpLogTable Half )
 else()
   target_link_libraries (halfExpLogTable
-    PRIVATE
+    #PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
           $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
@@ -49,9 +49,12 @@ add_library( IlmCtlSimd ${DO_SHARED}
 	"${CMAKE_CURRENT_BINARY_DIR}/halfExpLogTable.h"
 )
 
-#target_link_libraries( IlmCtlSimd IlmCtlMath IlmCtl )
-target_link_libraries( IlmCtlSimd 
-    PRIVATE
+target_link_libraries( IlmCtlSimd IlmCtlMath IlmCtl )
+if ( NOT OpenEXR_FOUND )
+  target_link_libraries( IlmCtlSimd Iex IlmThread Half )
+else()
+  target_link_libraries( IlmCtlSimd 
+    #PRIVATE
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
           $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
@@ -63,6 +66,7 @@ target_link_libraries( IlmCtlSimd
           $<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
           $<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
     )
+endif()
 
 set_target_properties( IlmCtlSimd PROPERTIES
   VERSION ${CTL_VERSION}
