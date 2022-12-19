@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH
 	${CMAKE_MODULE_PATH}
 )
 
-option(CTL_BUILD_TESTS "Build the unit tests" OFF)
+option(CTL_BUILD_TESTS "Build the unit tests" ON)
 option(CTL_BUILD_TOOLS "Build the utility commands (ctlrender, etc)" ON)
 
 find_package(Imath REQUIRED)
