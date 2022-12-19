@@ -2,7 +2,10 @@
 add_executable(halfExpLogTable halfExpLogTable.cpp)
 target_link_libraries(halfExpLogTable
 	PUBLIC
-		Imath::Imath
+	# For OpenEXR/Imath 3.x:
+	$<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
+	# For OpenEXR 2.4/2.5:
+	$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
 )
 #target_link_libraries (halfExpLogTable
 #    PRIVATE
