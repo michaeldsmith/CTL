@@ -128,8 +128,7 @@ modulePathsInternal()
 			#if defined (WIN32) || defined (WIN64)
 			path = "."; // default windows install location?
 			#else
-            path = ".:/usr/local/lib/CTL:/usr/local/" PACKAGE
-			       "-" VERSION "/lib/CTL";
+            path = ".:/usr/local/lib/CTL";
 			#endif
 
         size_t pos = 0;
