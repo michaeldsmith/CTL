@@ -27,8 +27,7 @@ target_link_libraries(ctlrender
 )
 
 find_package(TIFF)
-#if(TARGET TIFF:TIFF)
-if( TIFF_FOUND )
+if(TARGET TIFF:TIFF)
 	target_compile_definitions(ctlrender
 		PRIVATE
 			-DHAVE_LIBTIFF=1
