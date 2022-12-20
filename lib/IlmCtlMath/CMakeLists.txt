@@ -11,20 +11,25 @@ target_include_directories(IlmCtlMath
 		${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_libraries(IlmCtlMath
+if(IlmBase_FOUND)
+	target_link_libraries(IlmCtlMath
+	PUBLIC
+		IlmCtl
+	PUBLIC
+		# For OpenEXR 2.4/2.5:
+        $<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
+        $<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
+	)	
+else()
+	target_link_libraries(IlmCtlMath
 	PUBLIC
 		IlmCtl
 	PUBLIC
 		# For OpenEXR/Imath 3.x:
         $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
         $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
-		# For OpenEXR 2.4/2.5:
-        $<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
-        $<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
-#        $<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
-#        $<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
-#        $<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
-)
+	)
+endif()
 
 set_target_properties(IlmCtlMath
 	PROPERTIES
