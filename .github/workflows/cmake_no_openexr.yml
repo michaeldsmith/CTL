@@ -26,6 +26,9 @@ jobs:
     - name: remove openexr
       run: sudo apt-get --purge remove libopenexr-dev -y
 
+    - name: remove ilmbase
+      run: sudo apt-get --purge remove libilmbase-dev -y
+
     - name: install ilmbase
       run: sudo apt-get install libilmbase-dev -y
 
