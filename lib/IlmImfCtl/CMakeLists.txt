@@ -22,7 +22,7 @@ target_include_directories(IlmImfCtl
 target_link_libraries (IlmImfCtl
 	PUBLIC
 		IlmCtl
-    PUBLIC
+  PUBLIC
         # For OpenEXR/Imath 3.x:
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
 #          $<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>

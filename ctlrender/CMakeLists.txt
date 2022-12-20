@@ -27,15 +27,18 @@ target_link_libraries(ctlrender
 )
 
 find_package(TIFF)
-if(TARGET TIFF:TIFF)
+if(TARGET TIFF::TIFF)
+	message( STATUS "found TIFF, TIFF_LIBRARIES : ${TIFF_LIBRARIES}" )
 	target_compile_definitions(ctlrender
 		PRIVATE
 			-DHAVE_LIBTIFF=1
 	)
 	target_link_libraries(ctlrender
 		PRIVATE
-			TIFF:TIFF
+			TIFF::TIFF
 	)
+else()
+	message( STATUS "TIFF not found" )
 endif()
 
 find_package(AcesContainer)
