@@ -5,7 +5,7 @@ add_test(
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMAND ./test.sh $<TARGET_FILE:ctlrender>
     )
-    
+find_package(TIFF)    
 if ( NOT TIFF_FOUND )
     message(WARNING "LibTIFF not found, skipping tiff-related ctlrender unit tests")
     set_property(TEST ctlrender PROPERTY ENVIRONMENT "IS_TIFF_FOUND=0")

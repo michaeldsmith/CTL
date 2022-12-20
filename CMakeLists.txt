@@ -55,6 +55,12 @@ else()
   find_package(OpenEXR QUIET CONFIG REQUIRED)
 endif()
 
+if( OpenEXR_FOUND )
+  message( STATUS "found OpenEXR, version ${OpenEXR_VERSION}" )
+else()
+  find_package(Threads)
+endif()
+
 add_subdirectory(lib)
 add_subdirectory(doc)
 if (CTL_BUILD_TOOLS)
