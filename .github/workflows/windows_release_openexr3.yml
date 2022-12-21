@@ -34,18 +34,16 @@ jobs:
         cd ..
         git clone https://github.com/Microsoft/vcpkg.git
         cd vcpkg
-        git checkout --force 2020.01
         .\bootstrap-vcpkg.bat
-        .\vcpkg.exe install cppzmq:x64-windows
 
     - name: install dependencies - imath
-      run:  vcpkg install imath 
+      run:  .\vcpkg.exe install  imath 
 
     - name: install dependencies - openexr
-      run:  vcpkg install openexr 
+      run:  .\vcpkg.exe install  openexr 
 
     - name: install dependencies - tiff
-      run:  vcpkg install tiff 
+      run:  .\vcpkg.exe install tiff 
 
     - name: Running cmake (windows)
       run: |
