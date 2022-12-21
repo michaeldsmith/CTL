@@ -61,7 +61,7 @@ if( OpenEXR_FOUND )
   message( STATUS "found OpenEXR, version ${OpenEXR_VERSION}" )
 else()
   message( STATUS "OpenEXR not found" )
-  #find_package(Threads)
+  find_package(Threads)
 endif()
 
 add_subdirectory(lib)
