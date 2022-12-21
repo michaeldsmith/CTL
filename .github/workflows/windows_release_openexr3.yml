@@ -37,13 +37,13 @@ jobs:
         .\bootstrap-vcpkg.bat
 
     - name: install dependencies - imath
-      run:  .\vcpkg.exe install  imath 
+      run:  vcpkg.exe install  imath 
 
     - name: install dependencies - openexr
-      run:  .\vcpkg.exe install  openexr 
+      run:  vcpkg.exe install  openexr 
 
     - name: install dependencies - tiff
-      run:  .\vcpkg.exe install tiff 
+      run:  vcpkg.exe install tiff 
 
     - name: Running cmake (windows)
       run: |
