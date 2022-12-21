@@ -323,15 +323,15 @@ endforeach()
 #  Cache and set ILMBASE_FOUND
 # ------------------------------------------------------------------------
 
-#include(FindPackageHandleStandardArgs)
-#find_package_handle_standard_args(IlmBase
-#  FOUND_VAR IlmBase_FOUND
-#  REQUIRED_VARS
-#    IlmBase_INCLUDE_DIR
-#    IlmBase_LIB_COMPONENTS
-#  VERSION_VAR IlmBase_VERSION
-#  HANDLE_COMPONENTS
-#)
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(IlmBase
+  FOUND_VAR IlmBase_FOUND
+  REQUIRED_VARS
+    IlmBase_INCLUDE_DIR
+    IlmBase_LIB_COMPONENTS
+  #VERSION_VAR IlmBase_VERSION
+  HANDLE_COMPONENTS
+)
 
 if(NOT IlmBase_FOUND)
   if(IlmBase_FIND_REQUIRED)
