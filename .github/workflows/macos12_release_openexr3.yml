@@ -32,7 +32,7 @@ jobs:
         cd build &&
         cmake .. &&
         make &&
-        sudo make install
+        make install
 
     - name: install dependencies - openexr v3.1
       run:  |
@@ -45,7 +45,7 @@ jobs:
         cd build &&
         cmake .. &&
         make &&
-        sudo make install
+        make install
 
     - uses: actions/checkout@v3
 
