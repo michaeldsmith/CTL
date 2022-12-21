@@ -51,7 +51,7 @@ else()
 endif ()
 
 if(IlmBase_FOUND)
-  message( STATUS "IlmBase_INCLUDE_DIRS : ${IlmBase_INCLUDE_DIRS}" )
+  message( STATUS "IlmBase_INCLUDE_DIR : ${IlmBase_INCLUDE_DIR}" )
   find_package(OpenEXR QUIET CONFIG)
 else()
   find_package(OpenEXR QUIET CONFIG REQUIRED)
