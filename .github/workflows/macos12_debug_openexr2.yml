@@ -54,23 +54,12 @@ jobs:
 
     steps:
 
-    - name: install dependencies - imath
-      run:  |
-        cd ..
-        git clone https://github.com/AcademySoftwareFoundation/Imath.git &&
-        cd Imath &&
-        mkdir build &&
-        cd build &&
-        cmake .. &&
-        make &&
-        make install
-
-    - name: install dependencies - openexr v3.1
+    - name: install dependencies - openexr v2.5
       run:  |
         cd ..
         git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
         cd openexr &&
-        git checkout RB-3.1 &&
+        git checkout RB-2.5 &&
         mkdir build &&
         cd build &&
         cmake .. &&
