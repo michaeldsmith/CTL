@@ -37,7 +37,6 @@ jobs:
     - name: install dependencies - openexr v3.1
       run:  |
         cd ..
-        sudo apt-get -y install zlib1g-dev &&
         git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
         cd openexr &&
         git checkout RB-3.1 &&
