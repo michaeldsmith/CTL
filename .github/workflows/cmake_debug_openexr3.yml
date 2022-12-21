@@ -1,4 +1,4 @@
-name: CMake - Debug - OpenEXR3
+name: Ubuntu - Debug - OpenEXR3
 
 on:
   push:

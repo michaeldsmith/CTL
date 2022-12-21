@@ -1,4 +1,4 @@
-name: CMake - AddressSanitizer
+name: Ubuntu - AddressSanitizer
 
 on:
   push:

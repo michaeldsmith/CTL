@@ -1,4 +1,4 @@
-name: CMake - Release
+name: Ubuntu - Debug - OpenEXR2
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  BUILD_TYPE: Debug
 
 jobs:
   build:
@@ -22,6 +22,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: install libtiff
+      run: sudo apt-get install libtiff-dev -y 
 
     - uses: actions/checkout@v3
 
@@ -33,7 +36,7 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
+      
   test:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
@@ -41,6 +44,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: install libtiff
+      run: sudo apt-get install libtiff-dev -y 
 
     - uses: actions/checkout@v3
 
@@ -81,6 +87,9 @@ jobs:
         make  &&
         sudo make install
 
+    - name: install libtiff
+      run: sudo apt-get install libtiff-dev -y 
+
     - uses: actions/checkout@v3
 
     - name: Configure CMake
@@ -101,4 +110,6 @@ jobs:
     - name: Run Valgrind on unit tests
       working-directory: ${{github.workspace}}/build
       # Run valgrind using a bash script  
-      run: pwd && ls && bash ../resources/test/scripts/run_valgrind.sh   
+      run: pwd && ls && bash ../resources/test/scripts/run_valgrind.sh    
+
+  

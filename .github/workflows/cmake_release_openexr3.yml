@@ -1,4 +1,4 @@
-name: CMake - Release - OpenEXR3
+name: Ubuntu - Release - OpenEXR3
 
 on:
   push:
