@@ -1,93 +1,190 @@
-#
-# A simple cmake find module for IlmBase
-#
+##-*****************************************************************************
+##
+## Copyright (c) 2009-2016,
+##  Sony Pictures Imageworks Inc. and
+##  Industrial Light & Magic, a division of Lucasfilm Entertainment Company Ltd.
+##
+## All rights reserved.
+##
+## Redistribution and use in source and binary forms, with or without
+## modification, are permitted provided that the following conditions are
+## met:
+## *       Redistributions of source code must retain the above copyright
+## notice, this list of conditions and the following disclaimer.
+## *       Redistributions in binary form must reproduce the above
+## copyright notice, this list of conditions and the following disclaimer
+## in the documentation and/or other materials provided with the
+## distribution.
+## *       Neither the name of Industrial Light & Magic nor the names of
+## its contributors may be used to endorse or promote products derived
+## from this software without specific prior written permission.
+##
+## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+## "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+## LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+## A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+## OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+## SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+## LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+## DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+## THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+## OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+##
+##-*****************************************************************************
 
-find_package(PkgConfig QUIET)
-if(PKG_CONFIG_FOUND)
-  pkg_check_modules(PC_ILMBASE QUIET IlmBase)
-endif()
+#-******************************************************************************
+#-******************************************************************************
+# FIRST, ILMBASE STUFF
+#-******************************************************************************
+#-******************************************************************************
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  # Under Mac OS, if the user has installed using brew, the package config
-  # information is not entirely accurate in that it refers to the
-  # true install path but brew maintains links to /usr/local for you
-  # which they want you to use
-  if(PC_ILMBASE_FOUND AND "${PC_ILMBASE_INCLUDEDIR}" MATCHES "^/usr/local/Cellar.*")
-    set(_IlmBase_HINT_INCLUDE /usr/local/include)
-    set(_IlmBase_HINT_LIB /usr/local/lib)
-  endif()
-endif()
+# If ILMBASE_ROOT was defined in the environment, use it.
+IF(NOT ILMBASE_ROOT AND NOT $ENV{ILMBASE_ROOT} STREQUAL "")
+  SET(ILMBASE_ROOT $ENV{ILMBASE_ROOT})
+ENDIF()
 
-if(PC_ILMBASE_FOUND)
-  set(IlmBase_CFLAGS ${PC_ILMBASE_CFLAGS_OTHER})
-  set(IlmBase_LIBRARY_DIRS ${PC_ILMBASE_LIBRARY_DIRS})
-  set(IlmBase_LDFLAGS ${PC_ILMBASE_LDFLAGS_OTHER})
-  if("${_IlmBase_HINT_INCLUDE}" STREQUAL "")
-    set(_IlmBase_HINT_INCLUDE ${PC_ILMBASE_INCLUDEDIR} ${PC_ILMBASE_INCLUDE_DIRS})
-    set(_IlmBase_HINT_LIB ${PC_ILMBASE_LIBDIR} ${PC_ILMBASE_LIBRARY_DIRS})
-  endif()
-else()
-  if(UNIX)
-    set(IlmBase_CFLAGS "-pthread")
-    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    else()
-      set(OpenEXR_LDFLAGS "-pthread")
-    endif()
-  endif()
-endif()
+IF(NOT DEFINED ILMBASE_ROOT)
+    MESSAGE(STATUS "ILMBASE_ROOT is undefined" )
+    IF ( ${CMAKE_HOST_UNIX} )
+        IF( ${DARWIN} )
+          # TODO: set to default install path when shipping out
+          SET( ALEMBIC_ILMBASE_ROOT NOTFOUND )
+        ELSE()
+          # TODO: set to default install path when shipping out
+          SET( ALEMBIC_ILMBASE_ROOT "/usr/local/ilmbase-1.0.1/" )
+        ENDIF()
+    ELSE()
+        IF ( ${WINDOWS} )
+          # TODO: set to 32-bit or 64-bit path
+          SET( ALEMBIC_ILMBASE_ROOT "C:/Program Files (x86)/ilmbase-1.0.1/" )
+        ELSE()
+          SET( ALEMBIC_ILMBASE_ROOT NOTFOUND )
+        ENDIF()
+    ENDIF()
+ELSE()
+  SET( ALEMBIC_ILMBASE_ROOT ${ILMBASE_ROOT} )
+ENDIF()
 
-find_path(IlmBase_INCLUDE_DIR IlmBaseConfig.h HINTS ${_IlmBase_HINT_INCLUDE} PATH_SUFFIXES OpenEXR )
-if(IlmBase_INCLUDE_DIR AND EXISTS "${IlmBase_INCLUDE_DIR}/IlmBaseConfig.h")
-    set(IlmBase_VERSION ${PC_ILMBASE_VERSION})
-    if("${IlmBase_VERSION}" STREQUAL "")
-      file(STRINGS "${IlmBase_INCLUDE_DIR}/IlmBaseConfig.h" ilmbase_version_str
-           REGEX "^#define[\t ]+ILMBASE_VERSION_STRING[\t ]+\".*")
+SET(_ilmbase_FIND_COMPONENTS
+    Half
+    Iex
+    IexMath
+    IlmThread
+    Imath
+)
 
-      string(REGEX REPLACE "^#define[\t ]+ILMBASE_VERSION_STRING[\t ]+\"([^ \\n]*)\".*"
-             "\\1" IlmBase_VERSION "${ilmbase_version_str}")
-      unset(ilmbase_version_str)
-    endif()
-endif()
+SET(_ilmbase_SEARCH_DIRS
+    ${ALEMBIC_ILMBASE_ROOT}
+    ~/Library/Frameworks
+    /Library/Frameworks
+    /usr/local
+    /usr
+    /sw
+    /opt/local
+    /opt/csw
+    /opt
+    /usr/freeware
+)
 
-if("${IlmBase_VERSION}" VERSION_LESS "2.0.0")
-  set(IlmBase_ALL_LIBRARIES Imath Half Iex IlmThread)
-else()
-  set(IlmBase_ALL_LIBRARIES Imath Half Iex IexMath IlmThread)
-endif()
-foreach(ILMBASE_LIB ${IlmBase_ALL_LIBRARIES})
-  string(TOUPPER ${ILMBASE_LIB} _upper_ilmbase_lib)
-  find_library(IlmBase_${_upper_ilmbase_lib}_LIBRARY
-               NAMES ${ILMBASE_LIB} lib${ILMBASE_LIB}
-               HINTS ${_IlmBase_HINT_LIB}
-  )
-  if(IlmBase_${_upper_ilmbase_lib}_LIBRARY)
-    set(IlmBase_LIBRARY ${IlmBase_LIBRARY} ${IlmBase_${_upper_ilmbase_lib}_LIBRARY})
-    mark_as_advanced(IlmBase_${_upper_ilmbase_lib}_LIBRARY)
-  endif()
-endforeach()
+FIND_PATH(ILMBASE_INCLUDE_DIR
+  NAMES
+    IlmBaseConfig.h
+  HINTS
+    ${_ilmbase_SEARCH_DIRS}
+  PATH_SUFFIXES
+    include
+    include/OpenEXR
+)
 
-unset(_IlmBase_HINT_INCLUDE)
-unset(_IlmBase_HINT_LIB)
-set(IlmBase_LIBRARIES ${IlmBase_LIBRARY} )
-set(IlmBase_INCLUDE_DIRS ${IlmBase_INCLUDE_DIR} )
+# If the headers were found, get the version from config file, if not already set.
+IF(ILMBASE_INCLUDE_DIR)
+  SET(ALEMBIC_ILMBASE_INCLUDE_DIRECTORY ${ILMBASE_INCLUDE_DIR})
+  IF(NOT ILMBASE_VERSION)
 
-if(NOT PC_ILMBASE_FOUND)
-get_filename_component(IlmBase_LDFLAGS_OTHER ${IlmBase_HALF_LIBRARY} PATH)
-set(IlmBase_LDFLAGS_OTHER -L${IlmBase_LDFLAGS_OTHER})
-endif()
+    FIND_FILE(_ilmbase_CONFIG
+      NAMES
+        IlmBaseConfig.h
+      PATHS
+        "${ILMBASE_INCLUDE_DIR}"
+        "${ILMBASE_INCLUDE_DIR}/OpenEXR"
+    )
 
-include(FindPackageHandleStandardArgs)
-# handle the QUIETLY and REQUIRED arguments and set IlmBase_FOUND to TRUE
-# if all listed variables are TRUE
-find_package_handle_standard_args(IlmBase
-                                  REQUIRED_VARS IlmBase_LIBRARY IlmBase_INCLUDE_DIR
-                                  VERSION_VAR IlmBase_VERSION
-                                  FAIL_MESSAGE "Unable to find IlmBase libraries" )
+    IF(_ilmbase_CONFIG)
+      FILE(STRINGS "${_ilmbase_CONFIG}" ILMBASE_BUILD_SPECIFICATION
+           REGEX "^[ \t]*#define[ \t]+(ILMBASE_VERSION_STRING|VERSION)[ \t]+\"[.0-9]+\".*$")
+    ELSE()
+      MESSAGE(WARNING "Could not find \"IlmBaseConfig.h\" in \"${ILMBASE_INCLUDE_DIR}\"")
+    ENDIF()
 
-# older versions of cmake don't support FOUND_VAR to find_package_handle
-# so just do it the hard way...
-if(ILMBASE_FOUND AND NOT IlmBase_FOUND)
-  set(IlmBase_FOUND 1)
-endif()
+    IF(ILMBASE_BUILD_SPECIFICATION)
+      STRING(REGEX REPLACE ".*#define[ \t]+(ILMBASE_VERSION_STRING|VERSION)[ \t]+\"([.0-9]+)\".*"
+             "\\2" _ilmbase_libs_ver_init ${ILMBASE_BUILD_SPECIFICATION})
+    ELSE()
+      MESSAGE(WARNING "Could not determine ILMBase library version, assuming ${_ilmbase_libs_ver_init}.")
+    ENDIF()
 
-mark_as_advanced(IlmBase_INCLUDE_DIR IlmBase_LIBRARY )
+    UNSET(_ilmbase_CONFIG CACHE)
+
+  ENDIF()
+
+  SET("ILMBASE_VERSION" ${_ilmbase_libs_ver_init} CACHE STRING "Version of OpenEXR lib")
+  UNSET(_ilmbase_libs_ver_init)
+
+  STRING(REGEX REPLACE "([0-9]+)[.]([0-9]+).*" "\\1_\\2" _ilmbase_libs_ver ${ILMBASE_VERSION})
+ENDIF()
+
+
+SET(_ilmbase_LIBRARIES)
+FOREACH(COMPONENT ${_ilmbase_FIND_COMPONENTS})
+  STRING(TOUPPER ${COMPONENT} UPPERCOMPONENT)
+
+  FIND_LIBRARY(ALEMBIC_ILMBASE_${UPPERCOMPONENT}_LIB
+    NAMES
+      ${COMPONENT}-${_ilmbase_libs_ver} ${COMPONENT}
+    HINTS
+      ${_ilmbase_SEARCH_DIRS}
+    PATH_SUFFIXES
+      lib64 lib
+    )
+  LIST(APPEND _ilmbase_LIBRARIES "${ILMBASE_${UPPERCOMPONENT}_LIBRARY}")
+ENDFOREACH()
+
+UNSET(_ilmbase_libs_ver)
+
+IF ( ${ALEMBIC_ILMBASE_HALF_LIB} STREQUAL "ALEMBIC_ILMBASE_HALF_LIB-NOTFOUND" )
+  MESSAGE( FATAL_ERROR "ilmbase libraries (Half, Iex, IlmThread, Imath) not found, required" )
+ENDIF()
+
+IF ( ${ALEMBIC_ILMBASE_IEX_LIB} STREQUAL "ALEMBIC_ILMBASE_IEX_LIB-NOTFOUND" )
+  MESSAGE( FATAL_ERROR "ilmbase libraries (Half, Iex, IlmThread, Imath) not found, required" )
+ENDIF()
+
+IF ( DEFINED USE_IEXMATH AND USE_IEXMATH )
+  IF ( ${ALEMBIC_ILMBASE_IEXMATH_LIB} STREQUAL
+    "ALEMBIC_ILMBASE_IEXMATH_LIB-NOTFOUND" )
+  MESSAGE( FATAL_ERROR "ilmbase libraries (Half, Iex, IexMath, IlmThread, Imath) not found, required" )
+  ENDIF()
+ENDIF()
+
+IF ( ${ALEMBIC_ILMBASE_ILMTHREAD_LIB} STREQUAL "ALEMBIC_ILMBASE_ILMTHREAD_LIB-NOTFOUND" )
+  MESSAGE( FATAL_ERROR "ilmbase libraries (Half, Iex, IlmThread, Imath) not found, required" )
+ENDIF()
+
+IF ( ${ALEMBIC_ILMBASE_IMATH_LIB} STREQUAL "ALEMBIC_ILMBASE_IMATH_LIB-NOTFOUND" )
+  MESSAGE( FATAL_ERROR "ilmbase libraries (Half, Iex, IlmThread, Imath) not found, required" )
+ENDIF()
+
+IF ( ${ALEMBIC_ILMBASE_INCLUDE_DIRECTORY} STREQUAL "ALEMBIC_ILMBASE_INCLUDE_DIRECTORY-NOTFOUND" )
+  MESSAGE( FATAL_ERROR "ilmbase header files not found, required: ALEMBIC_ILMBASE_ROOT: ${ALEMBIC_ILMBASE_ROOT}" )
+ENDIF()
+
+
+MESSAGE( STATUS "ILMBASE INCLUDE PATH: ${ALEMBIC_ILMBASE_INCLUDE_DIRECTORY}" )
+MESSAGE( STATUS "HALF LIB: ${ALEMBIC_ILMBASE_HALF_LIB}" )
+MESSAGE( STATUS "IEX LIB: ${ALEMBIC_ILMBASE_IEX_LIB}" )
+MESSAGE( STATUS "IEXMATH LIB: ${ALEMBIC_ILMBASE_IEXMATH_LIB}" )
+MESSAGE( STATUS "ILMTHREAD LIB: ${ALEMBIC_ILMBASE_ILMTHREAD_LIB}" )
+MESSAGE( STATUS "IMATH LIB: ${ALEMBIC_ILMBASE_IMATH_LIB}" )
+
+SET( ILMBASE_FOUND TRUE )
