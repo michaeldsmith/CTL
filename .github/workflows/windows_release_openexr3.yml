@@ -24,7 +24,13 @@ jobs:
     steps:
 
     - name: install dependencies - imath
-      run:  vcpkg install openexr
+      run:  vcpkg install imath 
+
+    - name: install dependencies - openexr
+      run:  vcpkg install openexr 
+
+    - name: install dependencies - tiff
+      run:  vcpkg install tiff 
 
     - uses: actions/checkout@v3
 
