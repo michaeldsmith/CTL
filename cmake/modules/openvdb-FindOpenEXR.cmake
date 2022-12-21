@@ -172,9 +172,6 @@ if(EXISTS "${OpenEXR_INCLUDE_DIR}/OpenEXRConfig.h")
   unset(_openexr_version_minor_string)
 
   set(OpenEXR_VERSION ${OpenEXR_VERSION_MAJOR}.${OpenEXR_VERSION_MINOR})
-else()
-  message(STATUS "FindOpenEXR.cmake - OpenEXR not found")
-  return()
 endif()
 
 if(${OpenEXR_VERSION} VERSION_GREATER_EQUAL 3.0)
