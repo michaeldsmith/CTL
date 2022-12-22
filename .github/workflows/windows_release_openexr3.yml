@@ -57,7 +57,7 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}
-                  /../vcpkg/scripts/buildsystems/vcpkg.cmake 
+                  $VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake 
 
     - uses: actions/checkout@v3
 
