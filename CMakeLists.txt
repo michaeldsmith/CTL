@@ -73,6 +73,7 @@ add_subdirectory(lib)
 add_subdirectory(doc)
 if (CTL_BUILD_TOOLS)
 	add_subdirectory(ctlrender)
+  add_subdirectory(OpenEXR_CTL)
 endif()
 
 if (CTL_BUILD_TESTS)
