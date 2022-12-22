@@ -1,20 +1,20 @@
 # Build the halfExpLogTable.h file
-add_executable(halfExpLogTable halfExpLogTable.cpp)
-if(IlmBase_FOUND)
-	target_link_libraries(halfExpLogTable
-	PUBLIC
-	# For OpenEXR 2.4/2.5:
+#add_executable(halfExpLogTable halfExpLogTable.cpp)
+#if(IlmBase_FOUND)
+#	target_link_libraries(halfExpLogTable
+#	PUBLIC
+#	# For OpenEXR 2.4/2.5:
 #	$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
-	$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
-	)
-else()
-	target_link_libraries(halfExpLogTable
-	PUBLIC
-	# For OpenEXR/Imath 3.x:
-	$<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
-	$<$<TARGET_EXISTS:Imath::Half>:Imath::Half>
-	)
-endif()
+#	$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
+#	)
+#else()
+#	target_link_libraries(halfExpLogTable
+#	PUBLIC
+#	# For OpenEXR/Imath 3.x:
+#	$<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
+#	$<$<TARGET_EXISTS:Imath::Half>:Imath::Half>
+#	)
+#endif()
 
 #target_link_libraries(halfExpLogTable
 #	PUBLIC
@@ -26,13 +26,13 @@ endif()
 #	$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
 #)
 
-set(HALF_TABLE "${CMAKE_CURRENT_BINARY_DIR}/halfExpLogTable.h")
-set(HALF_EXPFUNCS "${CMAKE_CURRENT_BINARY_DIR}/halfExpLog.h")
+#set(HALF_TABLE "${CMAKE_CURRENT_BINARY_DIR}/halfExpLogTable.h")
+#set(HALF_EXPFUNCS "${CMAKE_CURRENT_BINARY_DIR}/halfExpLog.h")
 
-add_custom_command( OUTPUT "${HALF_TABLE}" "${HALF_EXPFUNCS}"
-	COMMAND halfExpLogTable "${HALF_TABLE}" "${HALF_EXPFUNCS}"
-	DEPENDS halfExpLogTable
-)
+#add_custom_command( OUTPUT "${HALF_TABLE}" "${HALF_EXPFUNCS}"
+#	COMMAND halfExpLogTable "${HALF_TABLE}" "${HALF_EXPFUNCS}"
+#	DEPENDS halfExpLogTable
+#)
 
 set(SOURCES
 	CtlSimdAddr.cpp
@@ -55,8 +55,10 @@ set(SOURCES
 	CtlSimdSyntaxTree.cpp
 	CtlSimdType.cpp
 	CtlSimdXContext.cpp
-	${HALF_TABLE}
-	${HALF_EXPFUNCS}
+	#${HALF_TABLE}
+	#${HALF_EXPFUNCS}
+	halfExpLogTable.h
+	halfExpLog.h
 )
 add_library(IlmCtlSimd ${SOURCES})
 
