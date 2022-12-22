@@ -2,8 +2,8 @@
     "name": "CTL", 
     "version": "1.5.2",
     "dependencies": [
-        "imath"
-        "openexr"
+        "imath",
+        "openexr",
         "tiff"
     ]
 }
