@@ -17,6 +17,7 @@ env:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, macos-12, macos-11, macos-10.15]
     runs-on: ${{ matrix.os }}
@@ -59,6 +60,7 @@ jobs:
   
   test:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, macos-12, macos-11, macos-10.15]
     runs-on: ${{ matrix.os }}
