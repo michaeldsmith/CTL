@@ -1,4 +1,4 @@
-name: macOS - Release - OpenEXR2
+name: macOS-OpenEXR2-Release
 
 on:
   push:

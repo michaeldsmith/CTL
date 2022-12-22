@@ -1,4 +1,4 @@
-name: Ubuntu - Release - OpenEXR3
+name: Ubuntu-OpenEXR3-Release
 
 on:
   push:

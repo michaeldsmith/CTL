@@ -1,4 +1,4 @@
-name: macOS - Debug - OpenEXR3
+name: macOS-OpenEXR3-Debug 
 
 on:
   push:

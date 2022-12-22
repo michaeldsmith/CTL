@@ -1,4 +1,4 @@
-name: macOS - Debug - OpenEXR2
+name: macOS-OpenEXR2-Debug
 
 on:
   push:
@@ -24,17 +24,17 @@ jobs:
 
     steps:
 
-    - name: install dependencies - openexr v2.5
-      run:  |
-        cd ..
-        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
-        cd openexr &&
-        git checkout RB-2.5 &&
-        mkdir build &&
-        cd build &&
-        cmake .. &&
-        make &&
-        make install
+    #- name: install dependencies - openexr v2.5
+    #  run:  |
+    #    cd ..
+    #    git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+    #    cd openexr &&
+    #    git checkout RB-2.5 &&
+    #    mkdir build &&
+    #    cd build &&
+    #    cmake .. &&
+    #    make &&
+    #    make install
 
     - uses: actions/checkout@v3
 
@@ -56,17 +56,17 @@ jobs:
 
     steps:
 
-    - name: install dependencies - openexr v2.5
-      run:  |
-        cd ..
-        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
-        cd openexr &&
-        git checkout RB-2.5 &&
-        mkdir build &&
-        cd build &&
-        cmake .. &&
-        make &&
-        make install
+    #- name: install dependencies - openexr v2.5
+    #  run:  |
+    #    cd ..
+    #    git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+    #   cd openexr &&
+    #    git checkout RB-2.5 &&
+    #    mkdir build &&
+    #    cd build &&
+    #    cmake .. &&
+    #    make &&
+    #    make install
 
     - uses: actions/checkout@v3
 

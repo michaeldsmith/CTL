@@ -1,4 +1,4 @@
-name: Ubuntu - Release - OpenEXR2 - no LibTIFF
+name: Ubuntu-OpenEXR2-no LibTIFF-Release 
 
 on:
   push:

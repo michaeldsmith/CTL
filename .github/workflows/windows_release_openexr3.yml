@@ -1,4 +1,4 @@
-name: Windows - Release - OpenEXR3
+name: Windows-OpenEXR3-Release
 
 on:
   push:
