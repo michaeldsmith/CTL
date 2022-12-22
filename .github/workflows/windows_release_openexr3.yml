@@ -35,36 +35,39 @@ jobs:
     #- name: run the bootstrap script to build vcpkg
     #  run:  .\vcpkg\bootstrap-vcpkg.bat
 
-    - name: Installing vcpkg (windows)
-      run: |
-        cd ..
-        git clone https://github.com/Microsoft/vcpkg.git
-        cd vcpkg
-        .\bootstrap-vcpkg.bat
+    #- name: Installing vcpkg (windows)
+    #  run: |
+    #    cd ..
+    #    git clone https://github.com/Microsoft/vcpkg.git
+    #    cd vcpkg
+    #    .\bootstrap-vcpkg.bat
 
     - name: install dependencies - imath
-      run:  vcpkg.exe install  imath 
+      run:  vcpkg install imath 
 
     - name: install dependencies - openexr
-      run:  vcpkg.exe install  openexr 
+      run:  vcpkg install openexr 
 
     - name: install dependencies - tiff
-      run:  vcpkg.exe install tiff 
+      run:  vcpkg install tiff 
 
-    - name: Running cmake (windows)
-      run: |
-        cd ${{ github.workspace }}
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}
-                  ${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake 
+    - name: check vcpkg install status
+      run: vcpkg list
+
+    #- name: Running cmake (windows)
+    #  run: |
+    #    cd ${{ github.workspace }}
+    #    mkdir build
+    #    cd build
+    #    cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}
+    #              ${VCPKG_INSTALLATION_ROOT}/scripts/buildsystems/vcpkg.cmake 
 
     - uses: actions/checkout@v3
 
     #- name: Configure CMake with vcpkg toolchain file
     #  # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
     #  # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-    #  run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "CMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "CMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
 
     - name: Build
       # Build your program with the given configuration
