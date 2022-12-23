@@ -41,6 +41,7 @@ jobs:
 
     - name: install dependencies - imath - build
       run: cmake --build . --config ${{env.BUILD_TYPE}}
+      working-directory: build
 
     - uses: actions/checkout@v3
 
