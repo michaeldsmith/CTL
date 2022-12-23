@@ -1,6 +1,10 @@
 # Module to find Imath 
 
-find_package(Imath QUIET CONFIG)
+#find_package(Imath QUIET CONFIG)
+find_package(Imath CONFIG)
+if (NOT TARGET Imath::Imath)
+	find_package(Imath QUIET)
+endif()
 if (NOT TARGET Imath::Imath)
 	# Maybe an older version of IlmBase exists?
 	find_package(IlmBase QUIET CONFIG)
