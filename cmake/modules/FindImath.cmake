@@ -25,7 +25,7 @@
 ###############################################################################
 ### Try to find package ###
 
-if(NOT OCIO_INSTALL_EXT_PACKAGES STREQUAL ALL)
+#if(NOT OCIO_INSTALL_EXT_PACKAGES STREQUAL ALL)
     set(_Imath_REQUIRED_VARS Imath_LIBRARY)
     set(_Imath_LIB_VER "${Imath_FIND_VERSION_MAJOR}_${Imath_FIND_VERSION_MINOR}")
 
@@ -106,9 +106,9 @@ if(NOT OCIO_INSTALL_EXT_PACKAGES STREQUAL ALL)
     endif()
 
     # Override REQUIRED if package can be installed
-    if(OCIO_INSTALL_EXT_PACKAGES STREQUAL MISSING)
+    #if(OCIO_INSTALL_EXT_PACKAGES STREQUAL MISSING)
         set(Imath_FIND_REQUIRED FALSE)
-    endif()
+   # endif()
 
     include(FindPackageHandleStandardArgs)
     find_package_handle_standard_args(Imath
@@ -117,7 +117,7 @@ if(NOT OCIO_INSTALL_EXT_PACKAGES STREQUAL ALL)
         VERSION_VAR
             Imath_VERSION
     )
-endif()
+#endif()
 
 ###############################################################################
 ### Create target
