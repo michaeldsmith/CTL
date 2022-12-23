@@ -37,11 +37,8 @@ jobs:
         mkdir build &&
         mkdir _install &&
         cd build &&
-        cmake .. -DCMAKE_INSTALL_PREFIX=../_install -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-    - name: install dependencies - imath - build
-      run: cmake --build . --config ${{env.BUILD_TYPE}}
-      working-directory: build
+        cmake .. -DCMAKE_INSTALL_PREFIX=../_install -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} &&
+        cmake --build . --config ${{env.BUILD_TYPE}}
 
     - uses: actions/checkout@v3
 
