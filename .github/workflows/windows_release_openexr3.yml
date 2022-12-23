@@ -1,4 +1,4 @@
-name: Windows-OpenEXR3Release
+name: Windows-OpenEXR3-Release
 
 on:
   push:
@@ -37,23 +37,7 @@ jobs:
         mkdir build &&
         mkdir _install &&
         cd build &&
-        cmake ../. -DCMAKE_INSTALL_PREFIX=../_install -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-      - name: install dependencies - imath - build
-      run:  |
-        cmake --build . --target install --config ${{env.BUILD_TYPE}}
-
-    - name: install dependencies - openexr v3.1
-      run:  |
-        cd ..
-        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
-        cd openexr &&
-        git checkout RB-3.1 &&
-        mkdir build &&
-        cd build &&
-        cmake .. &&
-        make &&
-        make install
+        cmake .. -DCMAKE_INSTALL_PREFIX=../_install -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - uses: actions/checkout@v3
 
