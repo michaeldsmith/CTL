@@ -62,7 +62,7 @@ jobs:
         mkdir build &&
         mkdir install &&
         cd build &&
-        cmake .. -D"CMAKE_INSTALL_PREFIX=../install" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_TESTING=OFF -DOPENEXR_BUILD_TOOLS=OFF -DOPENEXR_INSTALL_EXAMPLES=OFF &&
+        cmake .. -D"CMAKE_INSTALL_PREFIX=../install" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_TESTING=OFF -DOPENEXR_BUILD_TOOLS=OFF -DOPENEXR_INSTALL_EXAMPLES=OFF -D "CMAKE_PREFIX_PATH=D:/a/CTL/zlib/install/" &&
         cmake --build . --config ${{env.BUILD_TYPE}} && 
         cmake --build . --target install --config ${{env.BUILD_TYPE}} 
 
