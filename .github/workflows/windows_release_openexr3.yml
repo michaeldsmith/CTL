@@ -37,7 +37,7 @@ jobs:
         mkdir build &&
         mkdir _install &&
         cd build &&
-        cmake .. -DCMAKE_INSTALL_PREFIX=../_install -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} &&
+        cmake .. -D"CMAKE_INSTALL_PREFIX=../_install" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} &&
         cmake --build . --config ${{env.BUILD_TYPE}} && 
         cmake --build . --target install --config ${{env.BUILD_TYPE}} 
 
