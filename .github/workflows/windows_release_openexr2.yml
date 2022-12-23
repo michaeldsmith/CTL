@@ -1,4 +1,4 @@
-name: Windows-OpenEXR3-Release
+name: Windows-OpenEXR2-Release
 
 on:
   push:
@@ -58,7 +58,7 @@ jobs:
         cd ..
         git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
         cd openexr &&
-        git checkout RB-3.1 &&
+        git checkout RB-2.5 &&
         mkdir build &&
         mkdir install &&
         cd build &&
