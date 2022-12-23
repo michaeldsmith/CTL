@@ -3,8 +3,6 @@ project(CTL VERSION 1.5.2)
 enable_testing()
 include(GNUInstallDirs)
 
-set(CMAKE_CXX_STANDARD 11)
-
 set(CMAKE_MODULE_PATH
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules"
 	${CMAKE_MODULE_PATH}
