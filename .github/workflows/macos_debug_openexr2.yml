@@ -47,17 +47,23 @@ jobs:
 
     steps:
 
-    #- name: install dependencies - openexr v2.5
-    #  run:  |
-    #    cd ..
-    #    git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
-    #    cd openexr &&
-    #    git checkout RB-2.5 &&
-    #    mkdir build &&
-    #    cd build &&
-    #    cmake .. &&
-    #    make &&
-    #    make install
+    - name: uninstall openexr 
+      run:  brew uninstall openexr
+
+    - name: uninstall imath 
+      run:  brew uninstall imath
+
+    - name: install dependencies - openexr v2.5
+      run:  |
+        cd ..
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake .. &&
+        make &&
+        make install
 
     - uses: actions/checkout@v3
 
@@ -79,17 +85,23 @@ jobs:
 
     steps:
 
-    #- name: install dependencies - openexr v2.5
-    #  run:  |
-    #    cd ..
-    #    git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
-    #   cd openexr &&
-    #    git checkout RB-2.5 &&
-    #    mkdir build &&
-    #    cd build &&
-    #    cmake .. &&
-    #    make &&
-    #    make install
+    - name: uninstall openexr 
+      run:  brew uninstall openexr
+
+    - name: uninstall imath 
+      run:  brew uninstall imath
+
+    - name: install dependencies - openexr v2.5
+      run:  |
+        cd ..
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake .. &&
+        make &&
+        make install
 
     - uses: actions/checkout@v3
 
