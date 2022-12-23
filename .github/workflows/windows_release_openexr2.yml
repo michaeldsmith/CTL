@@ -73,7 +73,7 @@ jobs:
     #  # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       #run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "OpenEXR_DIR=D:/a/CTL/openexr/_install/lib/cmake/OpenEXR" --debug-find 
       #run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "CMAKE_PREFIX_PATH=D:/a/CTL/openexr/install/;D:/a/CTL/zlib/install/" 
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "CMAKE_PREFIX_PATH=${{github.workspace}}/openexr/install/;${{github.workspace}}/../zlib/install/" 
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "CMAKE_PREFIX_PATH=${{github.workspace}}/../openexr/install/;${{github.workspace}}/../zlib/install/" 
 
     - name: Build
       # Build your program with the given configuration
