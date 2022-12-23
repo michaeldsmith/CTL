@@ -41,6 +41,18 @@ jobs:
     #    cmake --build . --config ${{env.BUILD_TYPE}} && 
     #    cmake --build . --target install --config ${{env.BUILD_TYPE}} 
     
+- name: install dependencies - zlib
+      run:  |
+        cd ..
+        git clone https://github.com/madler/zlib.git &&
+        cd zlib &&
+        mkdir build &&
+        mkdir install &&
+        cd build &&
+        cmake .. -D"CMAKE_INSTALL_PREFIX=../install" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} &&
+        cmake --build . --config ${{env.BUILD_TYPE}} && 
+        cmake --build . --target install --config ${{env.BUILD_TYPE}}
+
     - name: install dependencies - openexr
       run:  |
         cd ..
