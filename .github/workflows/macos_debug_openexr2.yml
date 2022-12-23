@@ -48,10 +48,10 @@ jobs:
     steps:
 
     - name: uninstall openexr 
-      run:  brew uninstall openexr
+      run:  brew uninstall --ignore-dependencies openexr 
 
     - name: uninstall imath 
-      run:  brew uninstall imath
+      run:  brew uninstall --ignore-dependencies imath
 
     - name: install dependencies - openexr v2.5
       run:  |
@@ -86,10 +86,10 @@ jobs:
     steps:
 
     - name: uninstall openexr 
-      run:  brew uninstall openexr
+      run:  brew uninstall --ignore-dependencies openexr 
 
     - name: uninstall imath 
-      run:  brew uninstall imath
+      run:  brew uninstall --ignore-dependencies imath
 
     - name: install dependencies - openexr v2.5
       run:  |
