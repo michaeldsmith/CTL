@@ -16,7 +16,7 @@ env:
 
 jobs:
 
-  build:
+  build-openexr2:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
     # You can convert this to a matrix build if you need cross-platform coverage.
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
@@ -60,9 +60,9 @@ jobs:
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
-    - name: Install
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --target install --config ${{env.BUILD_TYPE}} 
+    #- name: Install
+    #  # Build your program with the given configuration
+    #  run: cmake --build ${{github.workspace}}/build --target install --config ${{env.BUILD_TYPE}} 
 
     - name: Test
       working-directory: ${{github.workspace}}/build
