@@ -99,7 +99,7 @@ namespace {
 
 struct ModulePathsData
 {
-    Mutex           mutex;
+    std::mutex           mutex;
     vector<string>  paths;
 };
 
@@ -167,7 +167,7 @@ struct Interpreter::Data
 {
     SymbolTable		symtab;
     ModuleSet		moduleSet;
-    Mutex		mutex;
+    std::mutex		mutex;
 };
 
 

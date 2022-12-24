@@ -215,7 +215,7 @@ class RcPtr
 
 
 void throwRcPtrExc (const RcObject *lhs, const RcObject *rhs);
-IlmThread::Mutex &rcPtrMutex (RcObject *ptr);
+std::mutex &rcPtrMutex (RcObject *ptr);
 
 
 //---------------

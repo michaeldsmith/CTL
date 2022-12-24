@@ -78,7 +78,7 @@ namespace Ctl {
 
 struct SimdInterpreter::Data
 {
-    Mutex		mutex;
+    std::mutex		mutex;
     unsigned long	maxInstCount;
     unsigned long	abortCount;
 };

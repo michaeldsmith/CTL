@@ -353,7 +353,7 @@ class CallFunctionsTask: public Task
 	 const FrameBuffer &inFb,
 	 Header &outHeader,
 	 const FrameBuffer &outFb,
-	 Mutex &exceptionMutex,
+	 std::mutex &exceptionMutex,
 	 string &exceptionWhat);
 
     virtual void	execute();
@@ -370,7 +370,7 @@ class CallFunctionsTask: public Task
     const FrameBuffer &	_inFb;
     Header &		_outHeader;
     const FrameBuffer &	_outFb;
-    Mutex &		_exceptionMutex;
+    std::mutex &		_exceptionMutex;
     string &		_exceptionWhat;
 };
 
@@ -387,7 +387,7 @@ CallFunctionsTask::CallFunctionsTask
      const FrameBuffer &inFb,
      Header &outHeader,
      const FrameBuffer &outFb,
-     Mutex &exceptionMutex,
+     std::mutex &exceptionMutex,
      string &exceptionWhat)
 :
     Task (group),
@@ -506,7 +506,7 @@ applyTransforms
     // and releases the mutex.
     //
 
-    Mutex exceptionMutex;
+    std::mutex exceptionMutex;
     string exceptionWhat;
 
     {
