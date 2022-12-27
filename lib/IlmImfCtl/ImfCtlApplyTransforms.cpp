@@ -66,8 +66,9 @@
 #include <ImfFrameBuffer.h>
 #include <CtlInterpreter.h>
 #include <IlmThreadPool.h>
-#include <IlmThreadMutex.h>
+//#include <IlmThreadMutex.h>
 #include <Iex.h>
+#include <mutex>
 
 using namespace std;
 using namespace Iex;
@@ -450,12 +451,14 @@ CallFunctionsTask::execute()
     }
     catch (const std::exception &exc)
     {
-	Lock lock (_exceptionMutex);
+	//Lock lock (_exceptionMutex);
+	std::lock_guard<std::mutex> lock(_exceptionMutex);
 	_exceptionWhat = exc.what();
     }
     catch (...)
     {
-	Lock lock (_exceptionMutex);
+	//Lock lock (_exceptionMutex);
+	std::lock_guard<std::mutex> lock(_exceptionMutex);
 	_exceptionWhat = "unrecognized exception";
     }
 }

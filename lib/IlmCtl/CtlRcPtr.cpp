@@ -62,7 +62,7 @@
 #include <Iex.h>
 #include <typeinfo>
 
-using namespace IlmThread;
+//using namespace IlmThread;
 using namespace Iex;
 using namespace std;
 

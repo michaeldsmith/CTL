@@ -68,7 +68,8 @@
 //
 //-----------------------------------------------------------------------
 
-#include <IlmThreadMutex.h>
+//#include <IlmThreadMutex.h>
+#include <mutex>
 
 namespace Ctl {
 
@@ -228,7 +229,7 @@ RcPtr<T>::ref ()
 {
     if (_p)
     {
-	IlmThread::Lock lock (rcPtrMutex ((RcObject*)_p));
+      std::lock_guard<std::mutex> lock (rcPtrMutex ((RcObject*)_p));
 	(_p->_n)++;
     }
 }
@@ -243,7 +244,7 @@ RcPtr<T>::unref ()
 	unsigned long n;
 
 	{
-	    IlmThread::Lock lock (rcPtrMutex ((RcObject*)_p));
+        std::lock_guard<std::mutex> lock(rcPtrMutex ((RcObject*)_p));
 	    n = --(_p->_n);
 	}
 

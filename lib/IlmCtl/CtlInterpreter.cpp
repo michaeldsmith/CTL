@@ -66,13 +66,14 @@
 #include <CtlSymbolTable.h>
 #include <CtlParser.h>
 #include <CtlExc.h>
-#include <IlmThreadMutex.h>
+//#include <IlmThreadMutex.h>
 #include <Iex.h>
 #include <fstream>
 #include <algorithm>
 #include <cassert>
 #include <string.h>
 #include <memory>
+#include <mutex>
 
 #ifdef WIN32
     #include <io.h>
@@ -84,7 +85,7 @@
 
 using namespace std;
 using namespace Iex;
-using namespace IlmThread;
+//using namespace IlmThread;
 
 #if 0
     #include <iostream>
@@ -111,7 +112,8 @@ modulePathsInternal()
     static bool firstTime = true;
 
 
-    Lock lock(mpd.mutex);
+    //Lock lock(mpd.mutex);
+    std::lock_guard<std::mutex> lock (mpd.mutex);
     // on the first attempt, load all paths from the environment variable
     if(firstTime)
     {
@@ -196,7 +198,8 @@ Interpreter::modulePaths()
     vector<string> retPaths;
     {
         ModulePathsData &mpd = modulePathsInternal();
-        Lock lock(mpd.mutex);
+        //Lock lock(mpd.mutex);
+        std::lock_guard<std::mutex> lock(mpd.mutex);
         retPaths = mpd.paths;
     }
     return retPaths;
@@ -226,7 +229,8 @@ Interpreter::findModule (const string& moduleName)
 
     {
         ModulePathsData &mpd = modulePathsInternal();
-        Lock lock(mpd.mutex);
+        //Lock lock(mpd.mutex);
+        std::lock_guard<std::mutex> lock(mpd.mutex);
         
         // Users can define a separate module path besides the environment variable
         // per instance on ctl running.
@@ -277,7 +281,8 @@ Interpreter::setModulePaths(const vector<string>& newModPaths)
 {
 
     ModulePathsData &mpd = modulePathsInternal();
-    Lock lock(mpd.mutex);
+    //Lock lock(mpd.mutex);
+    std::lock_guard<std::mutex> lock(mpd.mutex);
     mpd.paths = newModPaths;
 }
 
@@ -293,7 +298,8 @@ Interpreter::loadModule (const string &moduleName, const string &fileName, const
 {
     debug ("Interpreter::loadModule (moduleName = " << moduleName << ")");
 
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
     loadModuleRecursive (moduleName, fileName, moduleSource);
 }
 
@@ -406,7 +412,8 @@ void Interpreter::_loadModule(const std::string &moduleName,
 
 void Interpreter::loadFile(const std::string &fileName,
                            const std::string &_moduleName) {
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
 	std::string moduleName;
 	char random[32];
 
@@ -449,7 +456,8 @@ Interpreter::loadModuleRecursive (const string &moduleName, const string &fileNa
 bool
 Interpreter::moduleIsLoaded (const std::string &moduleName) const
 {
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
     return moduleIsLoadedInternal (moduleName);
 }
 
@@ -465,7 +473,8 @@ Interpreter::moduleIsLoadedInternal (const std::string &moduleName) const
 FunctionCallPtr
 Interpreter::newFunctionCall (const std::string &functionName)
 {
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
     
     //
     // Calling a CTL function with variable-size array arguments

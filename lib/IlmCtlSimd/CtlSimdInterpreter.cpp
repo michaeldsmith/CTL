@@ -119,7 +119,8 @@ SimdInterpreter::maxSamples () const
 void	
 SimdInterpreter::setMaxInstCount (unsigned long count)
 {
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
     _data->maxInstCount = count;
 }
 
@@ -127,14 +128,16 @@ SimdInterpreter::setMaxInstCount (unsigned long count)
 void	
 SimdInterpreter::abortAllPrograms ()
 {
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
     _data->abortCount += 1;
 }
 
 unsigned long	
 SimdInterpreter::abortCount()
 {
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
     return _data->abortCount;
 }
 
@@ -142,7 +145,8 @@ SimdInterpreter::abortCount()
 unsigned long	
 SimdInterpreter::maxInstCount()
 {
-    Lock lock (_data->mutex);
+    //Lock lock (_data->mutex);
+    std::lock_guard<std::mutex> lock(_data->mutex);
     return _data->maxInstCount;
 }
 
