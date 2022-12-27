@@ -65,13 +65,13 @@
 #include <CtlSimdStdLibrary.h>
 #include <CtlSimdReg.h>
 #include <CtlSimdFunctionCall.h>
-#include <IlmThreadMutex.h>
+//#include <IlmThreadMutex.h>
 #include <Iex.h>
 #include <cassert>
 
 using namespace std;
 using namespace Iex;
-using namespace IlmThread;
+//using namespace IlmThread;
 
 namespace Ctl {
 
