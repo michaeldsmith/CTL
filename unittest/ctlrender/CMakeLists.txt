@@ -1,10 +1,23 @@
 
 
-add_test(
+find_program(BASH_PROGRAM bash)
+if (BASH_PROGRAM)
+  MESSAGE( STATUS "BASH found, able to run ctlrender unit test" )
+  add_test(
         NAME ctlrender
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND ./test.sh $<TARGET_FILE:ctlrender>
+        COMMAND ${BASH_PROGRAM} ./test.sh $<TARGET_FILE:ctlrender>
     )
+else()
+    MESSAGE( STATUS "BASH not found, able to run ctlrender unit test" )
+endif (BASH_PROGRAM)
+
+#add_test(
+#        NAME ctlrender
+#        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+#        COMMAND ./test.sh $<TARGET_FILE:ctlrender>
+#    )
+
 
 find_package(TIFF)
 if ( TARGET TIFF::TIFF )
