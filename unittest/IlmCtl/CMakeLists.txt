@@ -22,7 +22,7 @@ target_link_libraries(IlmCtlTest
 		IlmCtl
 )
 
-add_test(IlmCtl IlmCtlTest)
+add_test(NAME "IlmCtl" COMMAND IlmCtlTest)
 
 file(COPY
 	common.ctl
