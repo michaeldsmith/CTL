@@ -22,13 +22,7 @@ target_link_libraries(IlmCtlTest
 		IlmCtl
 )
 
-#add_test(IlmCtl IlmCtlTest)
-
-add_test(
-        NAME IlmCtl
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND $<TARGET_FILE:IlmCtlTest>
-    )
+add_test(IlmCtl IlmCtlTest)
 
 file(COPY
 	common.ctl

@@ -1,4 +1,4 @@
-name: Windows-Release-vcpkg
+name: Windows-vcpkg-Release
 
 on:
   push:
