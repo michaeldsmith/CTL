@@ -25,7 +25,11 @@ ctlrender -force -compression NONE -ctl $CTLBASE/rrt/RRT.ctl -format exr16 $INPU
 
 # OCES to Rec709
 ctlrender -force -compression NONE -ctl $CTLBASE/odt/rec709/ODT.Academy.Rec709_100nits_dim.ctl -format tiff16 $INPUT_IMAGE_DIR/OCES/SonyF35.StillLife.exr $OUTPUT_IMAGE_DIR/ODT_SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff
-ctlrender -force -compression NONE -ctl $CTLBASE/rrt/RRT.ctl -format tiff16 $INPUT_IMAGE_DIR/OCES/syntheticChart.01.exr $OUTPUT_IMAGE_DIR/ODT_syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff
+ctlrender -force -compression NONE -ctl $CTLBASE/odt/rec709/ODT.Academy.Rec709_100nits_dim.ctl -format tiff16 $INPUT_IMAGE_DIR/OCES/syntheticChart.01.exr $OUTPUT_IMAGE_DIR/ODT_syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff
+
+# concatenated ctl rendering
+ctlrender -force -compression NONE -ctl $CTLBASE/idt/vendorSupplied/sony/IDT.Sony.SLog1_SGamut_10i.ctl -global_param1 aIn 1.0 -ctl $CTLBASE/rrt/RRT.ctl -ctl $CTLBASE/odt/rec709/ODT.Academy.Rec709_100nits_dim.ctl -format tiff16 $INPUT_IMAGE_DIR/camera/SonyF35.StillLife.dpx $OUTPUT_IMAGE_DIR/ACESOCESODT_SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff 
+ctlrender -force -compression NONE -ctl $CTLBASE/utilities/ACESutil.Unity.ctl -ctl $CTLBASE/rrt/RRT.ctl -ctl $CTLBASE/odt/rec709/ODT.Academy.Rec709_100nits_dim.ctl -format tiff16 $INPUT_IMAGE_DIR/camera/syntheticChart.01.exr $OUTPUT_IMAGE_DIR/ACESOCESODT_syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff
 
 # copy reference images
 cp $INPUT_IMAGE_DIR/ACES/DigitalLAD.2048x1556.exr $OUTPUT_IMAGE_DIR/ACESref_DigitalLAD.2048x1556.exr
@@ -46,3 +50,6 @@ compare -verbose -metric PAE $OUTPUT_IMAGE_DIR/OCES_syntheticChart.01.exr $INPUT
 
 compare -verbose -metric PAE $OUTPUT_IMAGE_DIR/ODT_SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff $INPUT_IMAGE_DIR/ODT/SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff null: 2>&1
 compare -verbose -metric PAE $OUTPUT_IMAGE_DIR/ODT_syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff $INPUT_IMAGE_DIR/ODT/syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff null: 2>&1
+
+compare -verbose -metric PAE $OUTPUT_IMAGE_DIR/ACESOCESODT_SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff $INPUT_IMAGE_DIR/ODT/SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff null: 2>&1
+compare -verbose -metric PAE $OUTPUT_IMAGE_DIR/ACESOCESODT_syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff $INPUT_IMAGE_DIR/ODT/syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff null: 2>&1

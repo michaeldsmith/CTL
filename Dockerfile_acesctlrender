@@ -44,6 +44,8 @@ WORKDIR /usr/src/aces-dev/images/ODT
 RUN curl -L -o SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AABmEQ5iue-1jXDdDFOKqeMKa/ODT/SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff
 RUN curl -L -o syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AADJi6mQiBnOgeDoGYrzh_dZa/ODT/syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff
 
+RUN apt-get -y install nano
+
 # build CTL
 WORKDIR /usr/src/CTL
 COPY . .
