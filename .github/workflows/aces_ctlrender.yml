@@ -46,23 +46,31 @@ jobs:
         cd images
         mkdir camera 
         cd camera
-        curl -o SonyF35.StillLife.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AADJ96mOT-gRT2QXGPRW72tXa/camera/SonyF35.StillLife.dpx?dl=0
-        curl -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABCNt5Z2sKrCyXK3WDGM9wna/camera/syntheticChart.01.exr?dl=0
+        curl -L -o SonyF35.StillLife.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AADJ96mOT-gRT2QXGPRW72tXa/camera/SonyF35.StillLife.dpx
+        curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABCNt5Z2sKrCyXK3WDGM9wna/camera/syntheticChart.01.exr
+        pwd
+        dir
         cd ..
         mkdir ACES
         cd ACES
-        curl -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAA04zUZyBYeHRHLaFry2XfDa/ACES/SonyF35.StillLife.exr?dl=0
-        curl -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AACjjNwsp7iLGkK2f1X-Aysya/ACES/syntheticChart.01.exr?dl=0
+        curl -L -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAA04zUZyBYeHRHLaFry2XfDa/ACES/SonyF35.StillLife.exr
+        curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AACjjNwsp7iLGkK2f1X-Aysya/ACES/syntheticChart.01.exr
+        pwd
+        dir
         cd ..
         mkdir OCES
         cd OCES
-        curl -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABHm7Vsi1lNqnpLFULRJBy8a/OCES/SonyF35.StillLife.exr?dl=0
-        curl -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAAsH92hT7okPkiGIycPZb3ua/OCES/syntheticChart.01.exr?dl=0
+        curl -L -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABHm7Vsi1lNqnpLFULRJBy8a/OCES/SonyF35.StillLife.exr
+        curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAAsH92hT7okPkiGIycPZb3ua/OCES/syntheticChart.01.exr
+        pwd
+        dir
         cd ..
         mkdir ODT
         cd ODT
-        curl -o SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AABmEQ5iue-1jXDdDFOKqeMKa/ODT/SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff?dl=0
-        curl -o syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AADJi6mQiBnOgeDoGYrzh_dZa/ODT/syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff?dl=0
+        curl -L -o SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AABmEQ5iue-1jXDdDFOKqeMKa/ODT/SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff
+        curl -L -o syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AADJi6mQiBnOgeDoGYrzh_dZa/ODT/syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff
+        pwd
+        dir
         cd ..
         cd ..
         cd ..
@@ -77,4 +85,4 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-      
+    
