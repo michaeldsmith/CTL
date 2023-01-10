@@ -1,0 +1,26 @@
+name: Docker Image CI
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build --rm -f Dockerfile_ACES_test -t ctl:latest .
+
+    - name: Run the Docker image
+      run: docker run -it --rm ctl:latest
+
