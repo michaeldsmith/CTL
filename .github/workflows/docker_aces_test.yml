@@ -22,5 +22,5 @@ jobs:
       run: docker build --rm -f Dockerfile_ACES_test -t ctl:latest .
 
     - name: Run the Docker image
-      run: docker run -it --rm ctl:latest
+      run: docker run ctl:latest
 
