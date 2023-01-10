@@ -23,28 +23,29 @@ RUN apt-get update
 RUN apt-get -y install curl
 RUN apt-get -y install imagemagick
 RUN apt-get -y install openexr
+RUN apt-get -y install nano
 
-# install ACES
-WORKDIR /usr/src/
-RUN git clone https://github.com/ampas/aces-dev.git 
-
-# download ACES images
-WORKDIR /usr/src/aces-dev/images/camera
+# download ACES reference images
+WORKDIR /usr/src/aces-reference/images/camera
 RUN curl -L -o DigitalLAD.2048x1556.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AACKMuLir6h28b1R-5YYEelua/camera/DigitalLAD.2048x1556.dpx
 RUN curl -L -o SonyF35.StillLife.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AADJ96mOT-gRT2QXGPRW72tXa/camera/SonyF35.StillLife.dpx
 RUN curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABCNt5Z2sKrCyXK3WDGM9wna/camera/syntheticChart.01.exr
-WORKDIR /usr/src/aces-dev/images/ACES
+WORKDIR /usr/src/aces-reference/images/ACES
 RUN curl -L -o DigitalLAD.2048x1556.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAD1ksjBqOnnLdNou4f7UR16a/ACES/DigitalLAD.2048x1556.exr
 RUN curl -L -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAA04zUZyBYeHRHLaFry2XfDa/ACES/SonyF35.StillLife.exr
 RUN curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AACjjNwsp7iLGkK2f1X-Aysya/ACES/syntheticChart.01.exr
-WORKDIR /usr/src/aces-dev/images/OCES
+WORKDIR /usr/src/aces-reference/images/OCES
 RUN curl -L -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABHm7Vsi1lNqnpLFULRJBy8a/OCES/SonyF35.StillLife.exr
 RUN curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAAsH92hT7okPkiGIycPZb3ua/OCES/syntheticChart.01.exr
-WORKDIR /usr/src/aces-dev/images/ODT
+WORKDIR /usr/src/aces-reference/images/ODT
 RUN curl -L -o SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AABmEQ5iue-1jXDdDFOKqeMKa/ODT/SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff
 RUN curl -L -o syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AADJi6mQiBnOgeDoGYrzh_dZa/ODT/syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff
 
-RUN apt-get -y install nano
+# install ACES
+WORKDIR /usr/src/
+RUN git clone https://github.com/ampas/aces-dev.git
+WORKDIR /usr/src/aces-dev
+RUN git checkout tags/v1.3 -b v1.3-master
 
 # build CTL
 WORKDIR /usr/src/CTL
@@ -56,4 +57,4 @@ RUN make install
 
 # finalize docker environment
 WORKDIR /usr/src/CTL
-
+CMD bash /usr/src/CTL/resources/test/scripts/test_aces.sh

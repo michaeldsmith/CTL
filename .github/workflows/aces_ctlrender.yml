@@ -46,6 +46,7 @@ jobs:
         cd images
         mkdir camera 
         cd camera
+        curl -L -o DigitalLAD.2048x1556.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AACKMuLir6h28b1R-5YYEelua/camera/DigitalLAD.2048x1556.dpx
         curl -L -o SonyF35.StillLife.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AADJ96mOT-gRT2QXGPRW72tXa/camera/SonyF35.StillLife.dpx
         curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABCNt5Z2sKrCyXK3WDGM9wna/camera/syntheticChart.01.exr
         pwd
@@ -74,6 +75,8 @@ jobs:
         cd ..
         cd ..
         cd ..
+        pwd
+        dir
 
     - uses: actions/checkout@v3
 
