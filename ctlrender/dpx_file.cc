@@ -56,6 +56,7 @@
 
 #include <dpx.hh>
 #include <fstream>
+#include <Iex.h>
 
 bool dpx_read(const char *name, float scale, ctl::dpx::fb<float> *pixels,
               format_t *format) {
@@ -63,6 +64,12 @@ bool dpx_read(const char *name, float scale, ctl::dpx::fb<float> *pixels,
 	ctl::dpx dpxheader;
 
 	file.open(name);
+
+	if (file.fail())
+	{
+		THROW(Iex::ArgExc, "dpx_read() cannot open input file " << std::string(name));
+		return 0;
+	}
 
 	if(!ctl::dpx::check_magic(&file)) {
 		return 0;
@@ -83,6 +90,12 @@ void dpx_write(const char *name, float scale, const ctl::dpx::fb<float> &pixels,
 	ctl::dpx dpxheader;
 
 	file.open(name);
+
+	if (file.fail())
+	{
+	  THROW(Iex::ArgExc, "dpx_write() cannot open output file " << std::string(name));
+	  return;
+	}
 
 	dpxheader.elements[0].data_sign=0;
 	dpxheader.elements[0].bits_per_sample=format->bps;
