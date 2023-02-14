@@ -47,14 +47,22 @@ RUN git clone https://github.com/ampas/aces-dev.git
 WORKDIR /usr/src/aces-dev
 RUN git checkout tags/v1.3 -b v1.3-master
 
+# build aces_container
+WORKDIR /usr/src/
+RUN git clone https://github.com/ampas/aces_container.git
+WORKDIR /usr/src/aces_container/build
+RUN cmake ..
+RUN make
+RUN make install
+
 # build CTL
 WORKDIR /usr/src/CTL
 COPY . .
 WORKDIR /usr/src/CTL/build
 RUN cmake ..
-RUN make
-RUN make install
+#RUN make
+#RUN make install
 
 # finalize docker environment
 WORKDIR /usr/src/CTL
-CMD bash /usr/src/CTL/resources/test/scripts/test_aces.sh
+#CMD bash /usr/src/CTL/resources/test/scripts/test_aces.sh

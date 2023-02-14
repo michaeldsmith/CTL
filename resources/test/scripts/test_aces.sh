@@ -16,9 +16,9 @@ CTLBASE=/usr/src/aces-dev/transforms/ctl
 export CTL_MODULE_PATH=$CTLBASE/csc/ADX/:$CTLBASE/idt/vendorSupplied/sony/:$CTLBASE/lib/:$CTLBASE/lmt/:$CTLBASE/odt/rec709/:$CTLBASE/rrt/:$CTLBASE/utilities/
 
 # camera to ACES
-ctlrender -force -compression NONE -ctl $CTLBASE/csc/ADX/ACEScsc.Academy.ADX10_to_ACES.ctl -global_param1 aIn 1.0 -format exr16 $INPUT_IMAGE_DIR/camera/DigitalLAD.2048x1556.dpx $OUTPUT_IMAGE_DIR/ACES_DigitalLAD.2048x1556.exr
-ctlrender -force -compression NONE -ctl $CTLBASE/idt/vendorSupplied/sony/IDT.Sony.SLog1_SGamut_10i.ctl -global_param1 aIn 1.0 -format exr16 $INPUT_IMAGE_DIR/camera/SonyF35.StillLife.dpx $OUTPUT_IMAGE_DIR/ACES_SonyF35.StillLife.exr
-ctlrender -force -compression NONE -ctl $CTLBASE/utilities/ACESutil.Unity.ctl $INPUT_IMAGE_DIR/camera/syntheticChart.01.exr $OUTPUT_IMAGE_DIR/ACES_syntheticChart.01.exr
+ctlrender -force -compression NONE -ctl $CTLBASE/csc/ADX/ACEScsc.Academy.ADX10_to_ACES.ctl -global_param1 aIn 1.0 -format aces $INPUT_IMAGE_DIR/camera/DigitalLAD.2048x1556.dpx $OUTPUT_IMAGE_DIR/ACES_DigitalLAD.2048x1556.exr
+ctlrender -force -compression NONE -ctl $CTLBASE/idt/vendorSupplied/sony/IDT.Sony.SLog1_SGamut_10i.ctl -global_param1 aIn 1.0 -format aces $INPUT_IMAGE_DIR/camera/SonyF35.StillLife.dpx $OUTPUT_IMAGE_DIR/ACES_SonyF35.StillLife.exr
+ctlrender -force -compression NONE -ctl $CTLBASE/utilities/ACESutil.Unity.ctl -format aces $INPUT_IMAGE_DIR/camera/syntheticChart.01.exr $OUTPUT_IMAGE_DIR/ACES_syntheticChart.01.exr
 
 # ACES to OCES
 ctlrender -force -compression NONE -ctl $CTLBASE/rrt/RRT.ctl -format exr16 $INPUT_IMAGE_DIR/ACES/SonyF35.StillLife.exr $OUTPUT_IMAGE_DIR/OCES_SonyF35.StillLife.exr

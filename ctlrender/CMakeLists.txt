@@ -50,6 +50,8 @@ else()
 	message( STATUS "TIFF not found, ctlrender will not support TIF files" )
 endif()
 
+#set(AcesContainer_DIR "/usr/local/lib/CMake/AcesContainer/" CACHE PATH "AcesContainerConfig.cmake")
+
 find_package(AcesContainer)
 if (TARGET AcesContainer::AcesContainer)
 	target_compile_definitions(ctlrender
@@ -60,6 +62,33 @@ if (TARGET AcesContainer::AcesContainer)
 		PRIVATE
 			AcesContainer::AcesContainer
 	)
+	message( STATUS "AcesContainer found, ctlrender will include support for writing ACES (SMPTE ST2065-4) files" )
+else()
+	message( STATUS "AcesContainer not found, ctlrender will not support writing ACES (SMPTE ST2065-4) files" )
 endif()
+
+
+
+# find_package( AcesContainer )
+# if (AcesContainer_FOUND)
+#   message( STATUS "Found AcesContainer, version ${AcesContainer_VERSION}" )
+# # else()
+# #   if ( PKG_CONFIG_FOUND )
+# #     pkg_check_modules( AcesContainer AcesContainer )
+# #   else()
+# #     message( WARNING "Unable to find AcesContainer libraries, disabling" )
+# #   endif()
+
+# add_definitions( -DHAVE_ACESFILE=1 )
+# include_directories( ${AcesContainer_INCLUDE_DIRS} )
+# link_directories( ${AcesContainer_LIBRARY_DIRS} )
+
+# message( STATUS "AcesContainer_INCLUDE_DIRS : ${AcesContainer_INCLUDE_DIRS}" )
+# message( STATUS "AcesContainer_LIBRARY_DIRS : ${AcesContainer_LIBRARY_DIRS}" )
+
+# 	message( STATUS "AcesContainer found, ctlrender will include support for writing ACES (SMPTE ST2065-4) files" )
+# else()
+# 	message( STATUS "AcesContainer not found, ctlrender will not support writing ACES (SMPTE ST2065-4) files" )
+# endif()
 
 install(TARGETS ctlrender DESTINATION ${CMAKE_INSTALL_BINDIR})
