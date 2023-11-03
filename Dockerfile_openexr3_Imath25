@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 RUN apt-get update
 
@@ -14,7 +14,7 @@ RUN apt-get -y install git
 RUN apt-get -y install valgrind
 
 # install CTL dependencies
-#RUN apt-get -y install libilmbase-dev
+RUN apt-get -y install libilmbase-dev
 #RUN apt-get -y install libopenexr-dev
 #RUN apt-get -y install zlib1g-dev
 
