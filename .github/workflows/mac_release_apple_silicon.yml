@@ -38,7 +38,7 @@ jobs:
         cd build &&
         cmake .. &&
         make &&
-        make install
+        sudo make install
 
     - uses: actions/checkout@v3
 
