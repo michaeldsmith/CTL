@@ -28,8 +28,6 @@ else()
   MESSAGE( STATUS "To use AddressSanitizer, use \"cmake .. -DCMAKE_BUILD_TYPE=asan\"" )
 endif()
 
-find_package(IlmBase REQUIRED)
-message(STATUS "Found IlmBase ${IlmBase_VERSION}")
 find_package(OpenEXR 3 CONFIG QUIET)
 if(OpenEXR_FOUND)
   message(STATUS "Found OpenEXR ${OpenEXR_VERSION}")
