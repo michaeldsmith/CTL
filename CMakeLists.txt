@@ -13,6 +13,7 @@ add_definitions( -DPACKAGE="${PROJECT_NAME}" -DVERSION="${PROJECT_VERSION}" )
 
 option(CTL_BUILD_TESTS "Build the unit tests" ON)
 option(CTL_BUILD_TOOLS "Build the utility commands (ctlrender, etc)" ON)
+option(BUILD_SHARED_LIBS "Build all libraries as shared" OFF )
 
 set(CMAKE_CXX_FLAGS_ASAN
   "-fsanitize=address -fno-optimize-sibling-calls -fsanitize-address-use-after-scope -fno-omit-frame-pointer -g -O1"
@@ -20,11 +21,15 @@ set(CMAKE_CXX_FLAGS_ASAN
   FORCE)
 
 if( NOT DEFINED CMAKE_BUILD_TYPE )
+  MESSAGE( STATUS "To use Release mode, use \"cmake .. -DCMAKE_BUILD_TYPE=Release\"" )
   MESSAGE( STATUS "To use AddressSanitizer, use \"cmake .. -DCMAKE_BUILD_TYPE=asan\"" )
+elseif( CMAKE_BUILD_TYPE STREQUAL "Release" )
+  MESSAGE( STATUS "Using Release mode - CMAKE_BUILD_TYPE : \"${CMAKE_BUILD_TYPE}\"")
 elseif( CMAKE_BUILD_TYPE STREQUAL "asan" )
   MESSAGE( STATUS "Using AddressSanitizer - CMAKE_BUILD_TYPE : \"${CMAKE_BUILD_TYPE}\"")
 else()
   MESSAGE( STATUS "CMAKE_BUILD_TYPE : \"${CMAKE_BUILD_TYPE}\"")
+  MESSAGE( STATUS "To use Release mode, use \"cmake .. -DCMAKE_BUILD_TYPE=Release\"" )
   MESSAGE( STATUS "To use AddressSanitizer, use \"cmake .. -DCMAKE_BUILD_TYPE=asan\"" )
 endif()
 
