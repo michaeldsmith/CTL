@@ -17,9 +17,13 @@ target_include_directories(ctldpx
 target_link_libraries(ctldpx
 	PUBLIC
 	# For OpenEXR/Imath 3.x:
-	$<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
+		$<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
 	# For OpenEXR 2.4/2.5:
-	$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
+		$<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
+		$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
+		$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
+		$<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
+		$<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
 )
 #target_link_libraries (ctldpx
 #    PRIVATE

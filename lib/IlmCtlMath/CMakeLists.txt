@@ -17,9 +17,11 @@ if(IlmBase_FOUND)
 		IlmCtl
 	PUBLIC
 		# For OpenEXR 2.4/2.5:
-        $<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
-        $<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
-		$<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex> 
+		$<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
+		$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
+		$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
+		$<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
+		$<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
 	)	
 else()
 	target_link_libraries(IlmCtlMath
