@@ -87,6 +87,7 @@ if(IlmBase_FOUND)
 	# For OpenEXR 2.4/2.5:
 	#$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
 	$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
+	$<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex> 
 	)
 endif()
 
