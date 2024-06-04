@@ -15,7 +15,7 @@ target_include_directories(ctlrender
 		${CMAKE_CURRENT_SOURCE_DIR}
 )
 target_link_libraries(ctlrender
-	PRIVATE
+	PUBLIC
 		IlmCtlSimd
 		IlmCtlMath
 		IlmCtl
