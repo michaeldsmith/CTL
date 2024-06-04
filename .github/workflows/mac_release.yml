@@ -115,7 +115,77 @@ jobs:
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-  
+
+  build-openexr2-static:
+
+    runs-on: macos-latest
+
+    steps:
+
+    # - name: uninstall openexr 
+    #   run:  brew uninstall --ignore-dependencies openexr 
+
+    # - name: uninstall imath 
+    #   run:  brew uninstall --ignore-dependencies imath
+
+    - name: install dependencies - openexr v2.5
+      run:  |
+        cd ..
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake -DBUILD_SHARED_LIBS=OFF .. &&
+        make &&
+        sudo make install
+
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+  build-openexr2-shared:
+
+    runs-on: macos-latest
+
+    steps:
+
+    # - name: uninstall openexr 
+    #   run:  brew uninstall --ignore-dependencies openexr 
+
+    # - name: uninstall imath 
+    #   run:  brew uninstall --ignore-dependencies imath
+
+    - name: install dependencies - openexr v2.5
+      run:  |
+        cd ..
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake -DBUILD_SHARED_LIBS=ON .. &&
+        make &&
+        sudo make install
+
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    
   build-openexr3-static:
     runs-on: macos-latest
 
@@ -311,7 +381,89 @@ jobs:
       # Execute tests defined by the CMake configuration.  
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -V --output-on-failure 
+  
+  test-openexr2-static:
 
+    runs-on: macos-latest
+
+    steps:
+
+    # - name: uninstall openexr 
+    #   run:  brew uninstall --ignore-dependencies openexr 
+
+    # - name: uninstall imath 
+    #   run:  brew uninstall --ignore-dependencies imath
+
+    - name: install dependencies - openexr v2.5
+      run:  |
+        cd ..
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake -DBUILD_SHARED_LIBS=OFF .. &&
+        make &&
+        sudo make install
+
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -V --output-on-failure 
+  
+  test-openexr2-shared:
+
+    runs-on: macos-latest
+
+    steps:
+
+    # - name: uninstall openexr 
+    #   run:  brew uninstall --ignore-dependencies openexr 
+
+    # - name: uninstall imath 
+    #   run:  brew uninstall --ignore-dependencies imath
+
+    - name: install dependencies - openexr v2.5
+      run:  |
+        cd ..
+        git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+        cd openexr &&
+        git checkout RB-2.5 &&
+        mkdir build &&
+        cd build &&
+        cmake -DBUILD_SHARED_LIBS=ON .. &&
+        make &&
+        sudo make install
+
+    - uses: actions/checkout@v3
+
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -V --output-on-failure 
+  
   test-openexr3-static:
     runs-on: macos-latest
 
