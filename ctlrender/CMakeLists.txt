@@ -24,7 +24,7 @@ target_link_libraries(ctlrender
           $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
         # For OpenEXR 2.4/2.5:
           $<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf> 
-		  $<$<TARGET_EXISTS:OpenEXR::Iex>:OpenEXR::Iex> 
+		  $<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex> 
 )
 
 if( OpenEXR_FOUND )

@@ -19,7 +19,7 @@ if(IlmBase_FOUND)
 		# For OpenEXR 2.4/2.5:
         $<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
         $<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
-		$<$<TARGET_EXISTS:OpenEXR::Iex>:OpenEXR::Iex> 
+		$<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex> 
 	)	
 else()
 	target_link_libraries(IlmCtlMath
