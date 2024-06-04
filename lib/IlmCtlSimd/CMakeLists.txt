@@ -81,6 +81,15 @@ set_target_properties(IlmCtlSimd
 		SOVERSION ${CTL_VERSION}
 )
 
+if(IlmBase_FOUND)
+	target_link_libraries(IlmCtlSimd
+	PUBLIC
+	# For OpenEXR 2.4/2.5:
+	#$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
+	$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
+	)
+endif()
+
 install(FILES CtlSimdInterpreter.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/CTL)
 
 install(TARGETS IlmCtlSimd DESTINATION ${CMAKE_INSTALL_LIBDIR})
