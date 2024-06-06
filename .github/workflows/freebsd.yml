@@ -1,0 +1,40 @@
+name: Docker-Linuxes
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+
+jobs:
+
+  Dockerfile-repo-root:
+
+    runs-on: ubuntu-latest
+
+    # based on example from https://github.com/marketplace/actions/freebsd-vm
+    name: A job to run test in FreeBSD
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Test in FreeBSD
+      id: test
+      uses: vmactions/freebsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          pkg install -y curl
+
+        run: |
+          pwd
+          ls -lah
+          whoami
+          env
+          freebsd-version
+
+
+
