@@ -47,9 +47,8 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg install -y cmake
           pkg install -y openexr
-          pkg install -y libtiff
+          pkg install -y tiff
         run:  |
             mkdir build &&
             cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} &&
