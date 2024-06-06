@@ -57,7 +57,7 @@ jobs:
             git checkout RB-2.5 &&
             mkdir build &&
             cd build &&
-            cmake .. &&
+            cmake .. -DBUILD_TESTING=OFF -DOPENEXR_BUILD_TOOLS=OFF -DOPENEXR_INSTALL_EXAMPLES=OFF &&
             make &&
             make install &&
             cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} &&
