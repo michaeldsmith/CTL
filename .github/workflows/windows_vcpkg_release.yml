@@ -66,8 +66,8 @@ jobs:
     - name: install dependencies - openexr
       run:  vcpkg install openexr 
 
-    #- name: install dependencies - tiff
-    #  run:  vcpkg install tiff 
+    - name: install dependencies - tiff
+      run:  vcpkg install tiff 
 
     - name: check vcpkg install status
       run: vcpkg list
@@ -77,7 +77,7 @@ jobs:
     - name: Configure CMake
     #  # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
     #  # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "CMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCTL_BUILD_TOOLS=OFF 
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -D "CMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake" -DCTL_BUILD_TOOLS=OFF -DBUILD_SHARED_LIBS=ON 
 
     - name: Build
       # Build your program with the given configuration
