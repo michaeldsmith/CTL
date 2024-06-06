@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: setup FreeBSD on github runner
+    - name: do CI on FreeBSD VM on github runner
       id: test
       uses: vmactions/freebsd-vm@v1
       with:
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: setup FreeBSD on github runner
+    - name: do CI on FreeBSD VM on github runner
       id: test
       uses: vmactions/freebsd-vm@v1
       with:
