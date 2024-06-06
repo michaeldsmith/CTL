@@ -1,4 +1,4 @@
-name: Docker-Linuxes
+name: FreeBSD
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-  Dockerfile-repo-root:
+  build:
 
     runs-on: ubuntu-latest
 
