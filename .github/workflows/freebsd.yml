@@ -12,16 +12,13 @@ on:
 
 jobs:
 
-  build:
+  setup-freeBSD:
 
     runs-on: ubuntu-latest
-
     # based on example from https://github.com/marketplace/actions/freebsd-vm
-    name: A job to run test in FreeBSD
-
     steps:
     - uses: actions/checkout@v4
-    - name: Test in FreeBSD
+    - name: setup FreeBSD on github runner
       id: test
       uses: vmactions/freebsd-vm@v1
       with:
@@ -35,6 +32,28 @@ jobs:
           whoami
           env
           freebsd-version
-
-
-
+          
+  build-openexr2:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: setup FreeBSD on github runner
+      id: test
+      uses: vmactions/freebsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          pkg install -y git
+          pkg install -y cmake
+#        - name: install dependencies - openexr v2.5
+        run:  |
+            cd ..
+            git clone https://github.com/AcademySoftwareFoundation/openexr.git &&
+            cd openexr &&
+            git checkout RB-2.5 &&
+            mkdir build &&
+            cd build &&
+            cmake .. &&
+            make &&
+            sudo make install   
+        
