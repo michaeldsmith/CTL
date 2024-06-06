@@ -50,6 +50,7 @@ jobs:
           pkg install -y git
           pkg install -y cmake
           pkg install -y openexr
+          pkg install -y libtiff
         run:  |
             mkdir build &&
             cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} &&
