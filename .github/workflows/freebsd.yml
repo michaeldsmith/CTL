@@ -47,6 +47,7 @@ jobs:
       with:
         usesh: true
         prepare: |
+          pkg install -y cmake
           pkg install -y openexr
           pkg install -y tiff
         run:  |
