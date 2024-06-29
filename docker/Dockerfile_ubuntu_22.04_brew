@@ -11,7 +11,7 @@ RUN apt-get -y install git
 RUN apt-get -y install build-essential
 
 # install brew
-RUN NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+RUN NONINTERACTIVE=1 bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 RUN (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /root/.bashrc
 RUN eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
