@@ -148,7 +148,7 @@ jobs:
         cd build &&
         cmake -DBUILD_SHARED_LIBS=ON .. &&
         make &&
-        make install
+        sudo make install
 
     - name: install dependencies - openexr v3.1
       run:  |
@@ -160,7 +160,7 @@ jobs:
         cd build &&
         cmake -DBUILD_SHARED_LIBS=ON .. &&
         make &&
-        make install
+        sudo make install
 
     - uses: actions/checkout@v4
 
