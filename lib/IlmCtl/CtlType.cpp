@@ -132,10 +132,10 @@ void Type::childElementV(size_t *offset, TypePtr *type, const std::string path,
 			offsets=((SizeVector *)va_arg(ap, SizeVector *));
 			while(offsets->size()!=0) {
 				if(sizes.size()==0) {
-					throw(DatatypeExc("too many dimensions specified for matrix (or array) vector element (at least %d too many)", offsets->size()));
+					throw(DatatypeExc("too many dimensions specified for matrix (or array) vector element (at least %zu too many)", offsets->size()));
 				}
 				if(offset[0]>=sizes[0]) {
-					throw(DatatypeExc("out of range matrix (or array) vector element (%u>=%u)", offset[0], sizes[0]));
+					throw(DatatypeExc("out of range matrix (or array) vector element (%zu>=%zu)", offset[0], sizes[0]));
 				}
 				*offset=*offset+array_type->elementType()->objectSize()*((*offsets)[0]);
 				*type=array_type->elementType();
@@ -150,7 +150,7 @@ void Type::childElementV(size_t *offset, TypePtr *type, const std::string path,
 		}
 
 		if(u>=sizes[0]) {
-			throw(DatatypeExc("out of range matrix (or array) element specification (%u>=%u)", u, sizes[0]));
+			throw(DatatypeExc("out of range matrix (or array) element specification (%u>=%zu)", u, sizes[0]));
 		}
 
 		*offset=*offset+u*array_type->elementType()->objectSize();
@@ -204,7 +204,12 @@ VoidType::VoidType (): DataType ()
 bool
 VoidType::isSameTypeAs (const TypePtr &t) const
 {
-    return t && typeid (*this) == typeid (*t);
+	auto& t1 = *this;
+	const type_info& ti1 = typeid(t1);
+	auto& t2 = *t;
+	const type_info& ti2 = typeid(t2);
+	return t && ti1 == ti2;
+    //return t && typeid (*this) == typeid (*t);
 }
 
 
@@ -282,7 +287,12 @@ BoolType::BoolType () : DataType ()
 bool
 BoolType::isSameTypeAs (const TypePtr &t) const
 {
-    return t && typeid (*this) == typeid (*t);
+    auto& t1 = *this;
+	const type_info& ti1 = typeid(t1);
+	auto& t2 = *t;
+	const type_info& ti2 = typeid(t2);
+	return t && ti1 == ti2;
+	//return t && typeid (*this) == typeid (*t);
 }
 
 
@@ -463,7 +473,12 @@ IntType::IntType () : DataType ()
 bool
 IntType::isSameTypeAs (const TypePtr &t) const
 {
-    return t && typeid (*this) == typeid (*t);
+    auto& t1 = *this;
+	const type_info& ti1 = typeid(t1);
+	auto& t2 = *t;
+	const type_info& ti2 = typeid(t2);
+	return t && ti1 == ti2;
+	//return t && typeid (*this) == typeid (*t);
 }
 
 
@@ -678,7 +693,12 @@ UIntType::UIntType () : DataType ()
 bool
 UIntType::isSameTypeAs (const TypePtr &t) const
 {
-    return t && typeid (*this) == typeid (*t);
+    auto& t1 = *this;
+	const type_info& ti1 = typeid(t1);
+	auto& t2 = *t;
+	const type_info& ti2 = typeid(t2);
+	return t && ti1 == ti2;
+	//return t && typeid (*this) == typeid (*t);
 }
 
 
@@ -892,7 +912,12 @@ HalfType::HalfType (): DataType ()
 bool
 HalfType::isSameTypeAs (const TypePtr &t) const
 {
-    return t && typeid (*this) == typeid (*t);
+    auto& t1 = *this;
+	const type_info& ti1 = typeid(t1);
+	auto& t2 = *t;
+	const type_info& ti2 = typeid(t2);
+	return t && ti1 == ti2;
+	//return t && typeid (*this) == typeid (*t);
 }
 
 
@@ -1076,7 +1101,12 @@ FloatType::FloatType (): DataType ()
 bool
 FloatType::isSameTypeAs (const TypePtr &t) const
 {
-    return t && typeid (*this) == typeid (*t);
+    auto& t1 = *this;
+	const type_info& ti1 = typeid(t1);
+	auto& t2 = *t;
+	const type_info& ti2 = typeid(t2);
+	return t && ti1 == ti2;
+	//return t && typeid (*this) == typeid (*t);
 }
 
 
@@ -1261,7 +1291,12 @@ StringType::StringType (): DataType ()
 bool
 StringType::isSameTypeAs (const TypePtr &t) const
 {
-    return t && typeid (*this) == typeid (*t);
+    auto& t1 = *this;
+	const type_info& ti1 = typeid(t1);
+	auto& t2 = *t;
+	const type_info& ti2 = typeid(t2);
+	return t && ti1 == ti2;
+	//return t && typeid (*this) == typeid (*t);
 }
 
 

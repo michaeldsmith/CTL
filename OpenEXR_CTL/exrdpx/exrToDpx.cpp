@@ -105,7 +105,7 @@ writeHeader
     setU32 (sizeof (header), header.fileInfo.offsetToImageData, BO_BIG);
     strcpy (header.fileInfo.versionNumber, "V2.0");
 
-    setU32 (sizeof (header) + 4 * width * height,
+    setU32 (sizeof (header) + 4 * static_cast<unsigned long>(width) * height,
 	    header.fileInfo.fileSize,
 	    BO_BIG);
 
@@ -169,13 +169,13 @@ writePixels
 	    const Rgba &pixel = pixels[y][x];
 
 	    unsigned int r =
-		(unsigned int) (clamp (float (pixel.r), 0.0f, 1023.0f) + 0.5f);
+		(unsigned int) (Imath::clamp (float (pixel.r), 0.0f, 1023.0f) + 0.5f);
 
 	    unsigned int g =
-		(unsigned int) (clamp (float (pixel.g), 0.0f, 1023.0f) + 0.5f);
+		(unsigned int) (Imath::clamp (float (pixel.g), 0.0f, 1023.0f) + 0.5f);
 
 	    unsigned int b =
-		(unsigned int) (clamp (float (pixel.b), 0.0f, 1023.0f) + 0.5f);
+		(unsigned int) (Imath::clamp (float (pixel.b), 0.0f, 1023.0f) + 0.5f);
 
 	    unsigned int word = (r << 22) | (g << 12) | (b << 2);
 
@@ -219,7 +219,7 @@ exrToDpx (const char exrFileName[],
 
     if (verbose)
     {
-	cout << "applyging CTL transforms:";
+	cout << "applying CTL transforms:";
 
 	for (int i = 0; i < transformNames.size(); ++i)
 	    cout << " " << transformNames[i];

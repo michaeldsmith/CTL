@@ -57,6 +57,8 @@
 #include <stdio.h>
 #ifdef _WIN32
 	#include <malloc.h>
+#elif defined(__FreeBSD__)
+	#include <stdlib.h>
 #else
 	#include <alloca.h>
 #endif
@@ -89,6 +91,7 @@ void CtlExc::_explain(const char *text, va_list _ap) {
 	}
 
 	operator=(ptr);
+	va_end(ap);
 }
 
 CtlExc::CtlExc(const char *format, ...) throw() {

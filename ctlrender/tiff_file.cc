@@ -65,6 +65,8 @@
 #include <Iex.h>
 #ifdef _WIN32
   #include <malloc.h>
+#elif defined(__FreeBSD__)
+  #include <stdlib.h>
 #else
   #include <alloca.h>
 #endif
@@ -276,6 +278,7 @@ void tiff_read_multiplane(TIFF *t, float scale, ctl::dpx::fb<float> * pixels) {
 	uint32_t row;
 	uint32_t orientation_offset;
 	uint16_t d;
+	uint32_t e;
 
 	TIFFGetFieldDefaulted(t, TIFFTAG_IMAGEWIDTH, &w);
 	TIFFGetFieldDefaulted(t, TIFFTAG_IMAGELENGTH, &h);
@@ -298,8 +301,8 @@ void tiff_read_multiplane(TIFF *t, float scale, ctl::dpx::fb<float> * pixels) {
 		for(row=0; row<4; row++) {
 			if(row<samples_per_pixel) {
 				scanline_buffer_uint8[row]=(uint8_t *)alloca(scanline_size);
-				for(d=0; d<w; d++) {
-					scanline_buffer_uint8[row][d]= row==3 ? 255 : 0;
+				for(e=0; e<w; e++) {
+					scanline_buffer_uint8[row][e]= row==3 ? 255 : 0;
 				}
 			} else {
 				scanline_buffer_uint8[row]=NULL;
@@ -328,8 +331,8 @@ void tiff_read_multiplane(TIFF *t, float scale, ctl::dpx::fb<float> * pixels) {
 		for(row=0; row<4; row++) {
 			if(row<samples_per_pixel) {
 				scanline_buffer_uint16[row]=(uint16_t *)alloca(scanline_size);
-				for(d=0; d<w; d++) {
-					scanline_buffer_uint16[row][d]= row==3 ? 65535 : 0;
+				for(e=0; e<w; e++) {
+					scanline_buffer_uint16[row][e]= row==3 ? 65535 : 0;
 				}
 			} else {
 				scanline_buffer_uint16[row]=NULL;
@@ -356,8 +359,8 @@ void tiff_read_multiplane(TIFF *t, float scale, ctl::dpx::fb<float> * pixels) {
 		for(row=0; row<4; row++) {
 			if(row<samples_per_pixel) {
 				scanline_buffer_float[row]=(float *)alloca(scanline_size);
-				for(d=0; d<w; d++) {
-					scanline_buffer_float[row][d]= row==3 ? 1.0 : 0.0;
+				for(e=0; e<w; e++) {
+					scanline_buffer_float[row][e]= row==3 ? 1.0 : 0.0;
 				}
 			} else {
 				scanline_buffer_float[row]=NULL;
@@ -483,8 +486,8 @@ void tiff_read_failsafe(TIFF *t, float scale, ctl::dpx::fb<float> *pixels) {
 	TIFFGetFieldDefaulted(t, TIFFTAG_IMAGELENGTH, &h);
 	pixels->init(w, h, 4);
 
-	temp_buffer=(uint8_t *)alloca(w*h*4);
-	TIFFReadRGBAImage(t, w, h, (uint32 *)temp_buffer, 0);
+	temp_buffer=(uint8_t *)alloca((uint64_t)w*h*4);
+	TIFFReadRGBAImage(t, w, h, (uint32_t *)temp_buffer, 0);
 
 	for(i=0; i<h; i++) {
 		flip=temp_buffer+sizeof(uint32_t)*w*(h-i-1);

@@ -1,5 +1,9 @@
 name: Docker-Linuxes
 
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   push:
     paths-ignore:
@@ -12,12 +16,36 @@ on:
 
 jobs:
 
+  Dockerfile-repo-root:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build --no-cache --rm -f ./Dockerfile -t ctl:latest .
+
+    - name: Run unit tests (ctest) within the Docker image
+      run: docker run ctl:latest sh -c "cd ./build && ctest"
+
+  Dockerfile_openexr3-repo-root:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build --no-cache --rm -f ./Dockerfile_openexr3 -t ctl:latest .
+
+      - name: Run unit tests (ctest) within the Docker image
+        run: docker run ctl:latest sh -c "cd ./build && ctest"
+
   ubuntu-18-04:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_18.04 -t ctl:latest .
 
@@ -29,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_20.04 -t ctl:latest .
 
@@ -41,21 +69,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.04 -t ctl:latest .
 
     - name: Run unit tests (ctest) within the Docker image
       run: docker run ctl:latest sh -c "cd ./build && ctest"
 
-  ubuntu-22-10:
+  # ubuntu-22-04-brew:
+
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Build the Docker image
+  #     run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.04_brew -t ctl:latest .
+
+  #   - name: Run ctlrender within the Docker image
+  #     run: docker run ctl:latest sh -c "ctlrender -ctl /usr/src/aces-dev/transforms/ctl/utilities/ACESutil.Unity.ctl /usr/src/aces-dev/images/ACES/SonyF35.StillLife.exr /tmp/testout.exr"
+
+  ubuntu-22-04-LTO:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.10 -t ctl:latest .
+      run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.04_LTO -t ctl:latest .
 
     - name: Run unit tests (ctest) within the Docker image
       run: docker run ctl:latest sh -c "cd ./build && ctest"
@@ -65,21 +105,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_latest -t ctl:latest .
-
-    - name: Run unit tests (ctest) within the Docker image
-      run: docker run ctl:latest sh -c "cd ./build && ctest"
-
-  centos7:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build --no-cache --rm -f ./docker/Dockerfile_centos_7 -t ctl:latest .
 
     - name: Run unit tests (ctest) within the Docker image
       run: docker run ctl:latest sh -c "cd ./build && ctest"
@@ -89,7 +117,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_redhat_ubi8 -t ctl:latest .
 
@@ -101,7 +129,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_redhat_ubi9 -t ctl:latest .
 
@@ -113,7 +141,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_fedora_36 -t ctl:latest .
 
@@ -125,7 +153,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_fedora_37 -t ctl:latest .
 
@@ -137,7 +165,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_fedora_38 -t ctl:latest .
 
@@ -149,9 +177,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build --no-cache --rm -f ./docker/Dockerfile_fedora_latest -t ctl:latest .
 
     - name: Run unit tests (ctest) within the Docker image
       run: docker run ctl:latest sh -c "cd ./build && ctest"
+
+  ubuntu-openexr2-shared:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.04_openexr2_shared -t ctl:latest .
+  
+      - name: Run unit tests (ctest) within the Docker image
+        run: docker run ctl:latest sh -c "cd ./build && ctest"  
+
+  ubuntu-openexr2-static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.04_openexr2_static -t ctl:latest .
+  
+      - name: Run unit tests (ctest) within the Docker image
+        run: docker run ctl:latest sh -c "cd ./build && ctest"  
+
+  ubuntu-22-04-openexr33:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.04_openexr33 -t ctl:latest .
+  
+      - name: Run unit tests (ctest) within the Docker image
+        run: docker run ctl:latest sh -c "cd ./build && ctest"  

@@ -21,9 +21,17 @@ target_link_libraries(ctlrender
 		IlmCtl
 		ctldpx
 	    # For OpenEXR/Imath 3.x:
-          $<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
-        # For OpenEXR 2.4/2.5:
-          $<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
+		$<$<TARGET_EXISTS:OpenEXR::OpenEXR>:OpenEXR::OpenEXR>
+		$<$<TARGET_EXISTS:Imath::Imath>:Imath::Imath>
+		$<$<TARGET_EXISTS:Imath::Half>:Imath::Half>
+	  # For OpenEXR 2.4/2.5:
+		$<$<TARGET_EXISTS:OpenEXR::IlmImf>:OpenEXR::IlmImf>
+		$<$<TARGET_EXISTS:IlmBase::Imath>:IlmBase::Imath>
+		$<$<TARGET_EXISTS:IlmBase::Half>:IlmBase::Half>
+		$<$<TARGET_EXISTS:IlmBase::IlmThread>:IlmBase::IlmThread>
+		$<$<TARGET_EXISTS:IlmBase::Iex>:IlmBase::Iex>
+	  # ZLIB for OpenEXR 2.x:
+	  	$<$<TARGET_EXISTS:ZLIB::ZLIB>:ZLIB::ZLIB>
 )
 
 if( OpenEXR_FOUND )
@@ -53,7 +61,26 @@ endif()
 #set(AcesContainer_DIR "/usr/local/lib/CMake/AcesContainer/" CACHE PATH "AcesContainerConfig.cmake")
 
 find_package(AcesContainer)
+if( AcesContainer_FOUND )
+	message( STATUS "find_package(AcesContainer) - AcesContainer_FOUND is true")	
+else()
+	message( STATUS "find_package(AcesContainer) - AcesContainer_FOUND is false")
+endif()
+
 if (TARGET AcesContainer::AcesContainer)
+	message( STATUS "find_package(AcesContainer) - TARGET AcesContainer::AcesContainer is true:" )
+else()
+	message( STATUS "find_package(AcesContainer) - TARGET AcesContainer::AcesContainer is false")
+endif()
+
+if( AcesContainer_FOUND OR TARGET AcesContainer::AcesContainer)
+
+	message( STATUS "	AcesContainer_VERSION : ${AcesContainer_VERSION}" )
+	message( STATUS "	AcesContainer_INCLUDE_DIRS : ${AcesContainer_INCLUDE_DIRS}" )
+	message( STATUS "	AcesContainer_LIBRARIES : ${AcesContainer_LIBRARIES}" )
+	message( STATUS "	AcesContainer_INCLUDE_DIR : ${AcesContainer_INCLUDE_DIR}" )
+	message( STATUS "	AcesContainer_LIBRARY : ${AcesContainer_LIBRARY}" )
+
 	target_compile_definitions(ctlrender
 		PRIVATE
 			-DHAVE_ACESFILE=1
@@ -62,9 +89,11 @@ if (TARGET AcesContainer::AcesContainer)
 		PRIVATE
 			AcesContainer::AcesContainer
 	)
-	message( STATUS "AcesContainer found, ctlrender will include support for writing ACES (SMPTE ST2065-4) files" )
+	message( STATUS "AcesContainer found")
+	message( STATUS "  ctlrender will support writing AcesContainer files" )
 else()
-	message( STATUS "AcesContainer not found, ctlrender will not support writing ACES (SMPTE ST2065-4) files" )
+	message( STATUS "AcesContainer not found - TARGET AcesContainer::AcesContainer is false and AcesContainer_FOUND is false")
+	message( STATUS "  ctlrender will not support writing AcesContainer files" )
 endif()
 
 

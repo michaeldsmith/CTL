@@ -41,13 +41,16 @@ the same CTL program can apply the same transform to an image.
 ## Package Contents ##
 The CTL source code contains the following:
 
-* `lib/` - CTL libraries and the CTL interpreter 
-* `doc/` - CTL documentation
-* `OpenEXR_CTL/` - sample CTL applications utilizing IlmImfCtl
+* `.github/` - github CI workflow files
+* `cmake/` - cmake support files
 * `ctlrender/` - an application that allows for application of CTL transforms to
   an image using one or more CTL scripts, potentially converting the file format
   in the process.
-* `config/` - CMake configuration files
+* `doc/` - CTL documentation
+* `docker/` - dockerfiles that compile CTL on various platforms 
+* `lib/` - CTL libraries and the CTL interpreter 
+* `OpenEXR_CTL/` - sample CTL applications utilizing IlmImfCtl
+* `resources/` - scripts and support files for unit tests
 * `unittest/` - unit test files
 
 ## Installation Prerequisites ##
@@ -76,39 +79,7 @@ below.
             
             $ brew install cmake
 
-__IlmBase__
-
-The CTL interpreter depends on the IlmBase software package, which can be
-downloaded from http://www.openexr.com or use one of the commands below.
-
-* Ubuntu
-
-        $ sudo apt-get install libilmbase-dev
-
-* Redhat
-
-        $ yum install ilmbase-devel
-
-* OS X
-
-    * Install homebrew if not already installed
-
-            $ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-            
-    * Install ilmBase
-    
-            $ brew install ilmBase
-
-
-### Suggested ###
-
 __OpenEXR__
-
-If you want to use CTL together with the OpenEXR image file format, you should
-download OpenEXR. The sample programs included with the CTL package (i.e.
-ctlrender, dpxexr, exr_ctl_exr, etc.) require that OpenEXR be installed. OpenEXR 
-can be downloaded from http://www.openexr.com/downloads.html or using one of the 
-commands below.
 
 * Ubuntu
 
@@ -128,9 +99,11 @@ commands below.
     
             $ brew install openexr                        
 
+### Suggested ###
+
 __TIFF__
 
-If you want to use CTL together with the TIFF image file format, you should download libTiff. libTiff can be downloaded from http://www.remotesensing.org/libtiff/ or using one of the commands below.
+If you want to use CTL together with the TIFF image file format, you should download libTiff. libTiff can be downloaded from [http://www.remotesensing.org/libtiff/](https://libtiff.gitlab.io/libtiff/) or using one of the commands below.
 
 * Ubuntu
 
@@ -138,7 +111,7 @@ If you want to use CTL together with the TIFF image file format, you should down
 
 * Redhat
 
-        $ yum install libtiff4
+        $ yum install libtiff-devel
 
 * OS X
 
@@ -152,7 +125,7 @@ If you want to use CTL together with the TIFF image file format, you should down
 
 __ACES Container__
 
-ctlrender is able to write files compliant with SMPTE S2065-4. This
+ctlrender is able to write files compliant with SMPTE ST2065-4. This
 functionality requires the aces_container library, the latest version of which 
 can be downloaded from https://github.com/ampas/aces_container
 
@@ -178,8 +151,7 @@ can be downloaded from https://github.com/ampas/aces_container
     
         Homebrew will install all dependancies (cmake, ilmbase, opener, aces_container, libtiff) automatically by default.  No need to install each manually.
     
-            $ brew install ctl
-
+            $ brew install --head ctl
 
 * Redhat, Ubuntu
 
@@ -192,7 +164,7 @@ can be downloaded from https://github.com/ampas/aces_container
 
     to run the optional unit tests:
 
-        $ sudo make check
+        $ ctest
 
 * Docker
 

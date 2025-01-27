@@ -184,7 +184,7 @@ void set_ctl_function_argument_from_ctl_results(Ctl::FunctionArgPtr *arg, const 
 		}
 		else
 		{
-			THROW(Iex::ArgExc, "CTL parameter '" << dst->name() << "' not specified on the command line and does not have a default value.");
+			THROW(Iex::ArgExc, "A value for the CTL input variable '" << dst->name() << "' does not exist, was not specified on the command line,\nand does not have a default value. A value can be provided at runtime using command line parameters. See '-help param'\n");
 			throw(std::exception());
 		}
 		return;
@@ -394,7 +394,7 @@ void run_ctl_transform(const ctl_operation_t &ctl_operation, CTLResults *ctl_res
             }
         } catch (...) {
 			char message_text[512] = {'\0'};
-			sprintf( message_text, "CTL file must contain either a main or <module_name> (%s) function", module);
+			snprintf( message_text, 512, "CTL file must contain either a main or <module_name> (%s) function", module);
             THROW(Iex::ArgExc, message_text);
         }		
 
@@ -699,6 +699,7 @@ void transform(const char *inputFile, const char *outputFile,
 	ctl_operation_t ctl_operation;
 	CTLParameters::const_iterator parameters_iter;
 	uint8_t i;
+	uint32_t j;
 	std::string error;
 	ctl::dpx::fb<float> image_buffer;
 
@@ -807,11 +808,11 @@ void transform(const char *inputFile, const char *outputFile,
 
 	char name[16];
 
-	for (i = 4; i < image_buffer.depth(); i++)
+	for (j = 4; j < image_buffer.depth(); j++)
 	{
 		memset(name, 0, sizeof(name));
-		snprintf(name, sizeof(name) - 1, "c%02dIn", i);
-		ctl_results.push_back(mkresult(name, NULL, image_buffer, i));
+		snprintf(name, sizeof(name) - 1, "c%02dIn", j);
+		ctl_results.push_back(mkresult(name, NULL, image_buffer, j));
 	}
 
 	for (operations_iter = ctl_operations.begin(); operations_iter != ctl_operations.end(); operations_iter++)

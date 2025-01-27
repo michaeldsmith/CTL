@@ -261,13 +261,14 @@ void rwinfo::write_init(std::ostream *o, dpx *h) {
 	if(h->current_compliance!=h->compliance) {
 		// XXX changed validation level... This will probably end in tears...
 	}
-	if(h->current_endian_mode!=h->current_endian_mode) {
+	//if(h->current_endian_mode!=h->current_endian_mode) {
+	if(h->current_endian_mode!=h->endian_mode) {
 		// XXX byteswap changed. this will probably end in tears...
 	}
 }
 
 void rwinfo::find_home(dpx *h, uint8_t element, uint64_t size) {
-	uint8_t i;
+	uint16_t i;
 	rwinfo info;
 	uint64_t eof;
 	uint64_t actual_eof;
