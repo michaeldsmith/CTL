@@ -672,7 +672,14 @@ int main(int argc, const char **argv)
 				exit(1);
 			}
 			actual_format.squish = noalpha;
-			transform(inputFile, outputFile, input_scale, output_scale, &actual_format, &compression, ctl_operations, global_ctl_parameters);
+			bool processed_ok = transform(inputFile, outputFile, input_scale, output_scale, &actual_format, &compression, ctl_operations, global_ctl_parameters);
+			if( false == processed_ok )
+			{
+				// clean up before exiting
+				ctl_operations.clear();
+				input_image_files.clear();
+				exit(1);
+			}
 			input_image_files.pop_front();
 		}
 

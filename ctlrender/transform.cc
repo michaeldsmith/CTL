@@ -688,7 +688,7 @@ void mkimage(ctl::dpx::fb<float> *image_buffer, const CTLResults &ctl_results, f
 // a pointer since there are fields in it that may be filled out by the
 // reader / writer and those will probably want to migrate back to the
 // calling function.
-void transform(const char *inputFile, const char *outputFile,
+bool transform(const char *inputFile, const char *outputFile,
 		       float input_scale, float output_scale,
 		       format_t *image_format,
                Compression *compression,
@@ -775,7 +775,7 @@ void transform(const char *inputFile, const char *outputFile,
 		!tiff_read(inputFile, input_scale, &image_buffer, image_format))
 	{
 		fprintf(stderr, "unable to read file %s (unknown format).\n", inputFile);
-		exit(1);
+		return false;
 	}
 
 	if (output_scale != 0.0)

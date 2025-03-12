@@ -3,6 +3,9 @@
 set -x
 set -u 
 
+# define VALGRIND exit code when VALGRIND detects memory errors
+VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE=3
+
 # get initial path before changing it
 SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
@@ -22,63 +25,63 @@ cd ./unittest/IlmCtl/
 # test_03_label="IlmImfCtlTest"
 
 cd ../ctlrender
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_nuke_10_be.dpx out.dpx
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_nuke_10_be.dpx out.dpx
 test_04_status=$? 
 test_04_label="ctlrender-dpx-to-dpx"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_nuke_10_be.dpx out.tif
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_nuke_10_be.dpx out.tif
 test_05_status=$? 
 test_05_label="ctlrender-dpx-to-tif"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop_16_le_interleaved.tif out.tif
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop_16_le_interleaved.tif out.tif
 test_06_status=$? 
 test_06_label="ctlrender-tif-to-tif"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop_16_le_interleaved.tif out.dpx
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop_16_le_interleaved.tif out.dpx
 test_07_status=$? 
 test_07_label="ctlrender-tif-to-dpx"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop.exr out.exr
 test_08_status=$? 
 test_08_label="ctlrender-exr-to-exr"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop.exr out.exr
 test_09_status=$? 
 test_09_label="ctlrender-exr-to-exr16"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/bars_photoshop.exr out.exr
 test_10_status=$? 
 test_10_label="ctlrender-exr-to-exr32"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr16.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr16.exr out.exr
 test_11_status=$? 
 test_11_label="ctlrender-rgb-exr16-to-exr16"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr16.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr16.exr out.exr
 test_12_status=$? 
 test_12_label="ctlrender-rgb-exr16-to-exr32"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr32.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr32.exr out.exr
 test_13_status=$? 
 test_13_label="ctlrender-rgb-exr32-to-exr16"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr32.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity.ctl ../../../unittest/ctlrender/colorbars_nuke_rgb_exr32.exr out.exr
 test_14_status=$? 
 test_14_label="ctlrender-rgb-exr32-to-exr32"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr16.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr16.exr out.exr
 test_15_status=$? 
 test_15_label="ctlrender-rgba-exr16-to-exr16"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr16.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr16.exr out.exr
 test_16_status=$? 
 test_16_label="ctlrender-rgba-exr16-to-exr32"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr32.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr16 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr32.exr out.exr
 test_17_status=$? 
 test_17_label="ctlrender-rgba-exr32-to-exr16"
 
-valgrind -s --error-exitcode=1 --leak-check=full --track-origins=yes --show-leak-kinds=all ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr32.exr out.exr
+valgrind -s --error-exitcode=$VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE --leak-check=full --track-origins=yes --show-leak-kinds=all --track-fds=yes --show-reachable=yes ../../ctlrender/ctlrender -force -format exr32 -ctl ../../../unittest/ctlrender/unity_with_alpha.ctl ../../../unittest/ctlrender/colorbars_nuke_rgba_exr32.exr out.exr
 test_18_status=$? 
 test_18_label="ctlrender-rgba-exr32-to-exr32"
 
@@ -106,87 +109,87 @@ test_18_label="ctlrender-rgba-exr32-to-exr32"
 cd $SCRIPTPATH
 
 # return valgrind exit codes
-if [ $test_04_status -eq 0 ] && [ $test_05_status -eq 0 ] && [ $test_06_status -eq 0 ] && [ $test_07_status -eq 0 ] && [ $test_08_status -eq 0 ] && [ $test_09_status -eq 0 ] && [ $test_10_status -eq 0 ] && [ $test_11_status -eq 0 ] && [ $test_12_status -eq 0 ] && [ $test_13_status -eq 0 ] && [ $test_14_status -eq 0 ] && [ $test_15_status -eq 0 ] && [ $test_16_status -eq 0 ] && [ $test_17_status -eq 0 ] && [ $test_18_status -eq 0 ] 
+if [ $test_04_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_05_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_06_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_07_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_08_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_09_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_10_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_11_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_12_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_13_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_14_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_15_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_16_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_17_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] || [ $test_18_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
 then
+  echo "Failure: valgrind detected errors"
+else
   echo "Success: valgrind detected no errors"
   exit 0
-else
-  echo "Failure: valgrind detected errors"
-
-  if [ $test_04_status -ne 0 ]
-  then 
-    echo "$test_04_label: valgrind detected errors" 
-  fi
-
-  if [ $test_05_status -ne 0 ]
-  then 
-    echo "$test_05_label: valgrind detected errors" 
-  fi
-
-  if [ $test_06_status -ne 0 ]
-  then 
-    echo "$test_06_label: valgrind detected errors" 
-  fi
-
-  if [ $test_07_status -ne 0 ]
-  then 
-    echo "$test_07_label: valgrind detected errors" 
-  fi
-
-  if [ $test_08_status -ne 0 ]
-  then 
-    echo "$test_08_label: valgrind detected errors" 
-  fi
-
-  if [ $test_09_status -ne 0 ]
-  then 
-    echo "$test_09_label: valgrind detected errors" 
-  fi
-
-  if [ $test_10_status -ne 0 ]
-  then 
-    echo "$test_10_label: valgrind detected errors" 
-  fi
-
-  if [ $test_11_status -ne 0 ] 
-  then 
-    echo "$test_11_label: valgrind detected errors" 
-  fi
-
-  if [ $test_12_status -ne 0 ] 
-  then 
-    echo "$test_12_label: valgrind detected errors" 
-  fi
-
-  if [ $test_13_status -ne 0 ] 
-  then 
-    echo "$test_13_label: valgrind detected errors" 
-  fi
-
-  if [ $test_14_status -ne 0 ] 
-  then 
-    echo "$test_14_label: valgrind detected errors" 
-  fi
-
-  if [ $test_15_status -ne 0 ] 
-  then 
-    echo "$test_15_label: valgrind detected errors" 
-  fi
-
-  if [ $test_16_status -ne 0 ] 
-  then 
-    echo "$test_16_label: valgrind detected errors" 
-  fi
-
-  if [ $test_17_status -ne 0 ] 
-  then 
-    echo "$test_17_label: valgrind detected errors" 
-  fi
-
-  if [ $test_18_status -ne 0 ] 
-  then 
-    echo "$test_18_label: valgrind detected errors" 
-  fi
-
-  exit 1
 fi
+
+if [ $test_04_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ]
+then 
+  echo "$test_04_label: valgrind detected errors" 
+fi
+
+if [ $test_05_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ]
+then 
+  echo "$test_05_label: valgrind detected errors" 
+fi
+
+if [ $test_06_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ]
+then 
+  echo "$test_06_label: valgrind detected errors" 
+fi
+
+if [ $test_07_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ]
+then 
+  echo "$test_07_label: valgrind detected errors" 
+fi
+
+if [ $test_08_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ]
+then 
+  echo "$test_08_label: valgrind detected errors" 
+fi
+
+if [ $test_09_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ]
+then 
+  echo "$test_09_label: valgrind detected errors" 
+fi
+
+if [ $test_10_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ]
+then 
+  echo "$test_10_label: valgrind detected errors" 
+fi
+
+if [ $test_11_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_11_label: valgrind detected errors" 
+fi
+
+if [ $test_12_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_12_label: valgrind detected errors" 
+fi
+
+if [ $test_13_status -eq $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_13_label: valgrind detected errors" 
+fi
+
+if [ $test_14_status -ne $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_14_label: valgrind detected errors" 
+fi
+
+if [ $test_15_status -ne $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_15_label: valgrind detected errors" 
+fi
+
+if [ $test_16_status -ne $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_16_label: valgrind detected errors" 
+fi
+
+if [ $test_17_status -ne $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_17_label: valgrind detected errors" 
+fi
+
+if [ $test_18_status -ne $VALGRIND_MEM_ERROR_DETECTION_EXIT_CODE ] 
+then 
+  echo "$test_18_label: valgrind detected errors" 
+fi
+
+exit 1

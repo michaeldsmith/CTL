@@ -92,7 +92,7 @@ struct ctl_operation_t
 
 typedef std::list<ctl_operation_t> CTLOperations;
 
-void transform(const char *inputFile, const char *outputFile,
+bool transform(const char *inputFile, const char *outputFile,
 		       float input_scale, float output_scale,
 		       format_t *format,
                Compression *compression,
