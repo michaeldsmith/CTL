@@ -29,4 +29,4 @@ RUN make install
 WORKDIR /usr/src/CTL/build
 
 # run valgrind
-CMD bash /usr/src/CTL/resources/test/scripts/run_valgrind.sh
+CMD bash /usr/src/CTL/resources/test/scripts/run_valgrind_just_ctlrender.sh
