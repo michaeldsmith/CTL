@@ -676,8 +676,8 @@ int main(int argc, const char **argv)
 			if( false == processed_ok )
 			{
 				// clean up before exiting
-				ctl_operations.clear();
-				input_image_files.clear();
+				//ctl_operations.clear();
+				//input_image_files.clear();
 				exit(1);
 			}
 			input_image_files.pop_front();
