@@ -20,12 +20,13 @@ RUN apt-get -y install libopenexr-dev
 WORKDIR /usr/src/CTL
 COPY . .
 WORKDIR /usr/src/CTL/build
+RUN rm -R * || true
 RUN cmake ..
 RUN make
 RUN make install
 
 # finalize docker environment
-WORKDIR /usr/src/CTL
+WORKDIR /usr/src/CTL/build
 
 # run valgrind
 CMD bash /usr/src/CTL/resources/test/scripts/run_valgrind.sh

@@ -220,6 +220,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build the Docker image
         run: docker build --no-cache --rm -f ./docker/Dockerfile_ubuntu_22.04_no_libtiff_valgrind -t ctl:latest .
-  
 
-  
+      - name: Run the docker that runs valgrind
+        run: docker run ctl:latest 
+          
