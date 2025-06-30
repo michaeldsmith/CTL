@@ -1,0 +1,68 @@
+FROM ubuntu:noble
+
+RUN apt-get update
+
+# disable interactive install 
+ENV DEBIAN_FRONTEND noninteractive
+
+# install developement tools
+RUN apt-get -y install cmake
+RUN apt-get -y install g++
+RUN apt-get -y install git
+
+# install developement debugging tools
+RUN apt-get -y install valgrind
+
+# install CTL dependencies
+RUN apt-get -y install libopenexr-dev
+RUN apt-get -y install libtiff-dev
+
+# install workflow tools
+RUN apt-get update
+RUN apt-get -y install curl
+RUN apt-get -y install imagemagick
+RUN apt-get -y install openexr
+RUN apt-get -y install nano
+
+# download ACES reference images
+WORKDIR /usr/src/aces-reference/images/camera
+RUN curl -L -o DigitalLAD.2048x1556.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AACKMuLir6h28b1R-5YYEelua/camera/DigitalLAD.2048x1556.dpx
+RUN curl -L -o SonyF35.StillLife.dpx https://www.dropbox.com/sh/9xcfbespknayuft/AADJ96mOT-gRT2QXGPRW72tXa/camera/SonyF35.StillLife.dpx
+RUN curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABCNt5Z2sKrCyXK3WDGM9wna/camera/syntheticChart.01.exr
+WORKDIR /usr/src/aces-reference/images/ACES
+RUN curl -L -o DigitalLAD.2048x1556.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAD1ksjBqOnnLdNou4f7UR16a/ACES/DigitalLAD.2048x1556.exr
+RUN curl -L -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAA04zUZyBYeHRHLaFry2XfDa/ACES/SonyF35.StillLife.exr
+RUN curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AACjjNwsp7iLGkK2f1X-Aysya/ACES/syntheticChart.01.exr
+WORKDIR /usr/src/aces-reference/images/OCES
+RUN curl -L -o SonyF35.StillLife.exr https://www.dropbox.com/sh/9xcfbespknayuft/AABHm7Vsi1lNqnpLFULRJBy8a/OCES/SonyF35.StillLife.exr
+RUN curl -L -o syntheticChart.01.exr https://www.dropbox.com/sh/9xcfbespknayuft/AAAsH92hT7okPkiGIycPZb3ua/OCES/syntheticChart.01.exr
+WORKDIR /usr/src/aces-reference/images/ODT
+RUN curl -L -o SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AABmEQ5iue-1jXDdDFOKqeMKa/ODT/SonyF35.StillLife_ODT.Academy.Rec709_100nits_dim.tiff
+RUN curl -L -o syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff https://www.dropbox.com/sh/9xcfbespknayuft/AADJi6mQiBnOgeDoGYrzh_dZa/ODT/syntheticChart.01_ODT.Academy.Rec709_100nits_dim.tiff
+
+# install ACES
+WORKDIR /usr/src/
+RUN git clone https://github.com/ampas/aces-dev.git
+WORKDIR /usr/src/aces-dev
+RUN git checkout tags/v1.0 -b v1.0-master
+
+# # build aces_container
+# WORKDIR /usr/src/
+# RUN git clone https://github.com/ampas/aces_container.git
+# WORKDIR /usr/src/aces_container/build
+# RUN cmake ..
+# RUN make
+# RUN make install
+
+# build CTL
+WORKDIR /usr/src/CTL
+COPY . .
+WORKDIR /usr/src/CTL/build
+RUN rm -R * || true
+RUN cmake ..
+RUN make
+RUN make install
+
+# finalize docker environment
+WORKDIR /usr/src/CTL
+CMD bash /usr/src/CTL/resources/test/scripts/test_aces_v1.0.sh
