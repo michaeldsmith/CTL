@@ -64,6 +64,188 @@
 #include <ImfChannelList.h>
 #include <Iex.h>
 
+bool exr_read_16(Imf::InputFile file, Imath::Box2i dataWindow, ctl::dpx::fb<float>* pixels)
+{
+  // exr read code based on example documentation
+  // https://openexr.com/en/latest/ReadingAndWritingImageFiles.html#reading-an-image-file
+
+  Imf::FrameBuffer frameBuffer;
+
+  Imf::Array2D<half> rPixels;
+  Imf::Array2D<half> gPixels;
+  Imf::Array2D<half> bPixels;
+  Imf::Array2D<half> aPixels;
+
+  int width = dataWindow.max.x - dataWindow.min.x + 1;
+  int height = dataWindow.max.y - dataWindow.min.y + 1;
+
+  bool has_alpha = file.header().channels().findChannel("A");
+
+  rPixels.resizeErase(height, width);
+  gPixels.resizeErase(height, width);
+  bPixels.resizeErase(height, width);
+
+  // red
+  frameBuffer.insert("R",            // name
+    Imf::Slice(Imf::HALF,            // type
+      (char*)(&rPixels[0][0] -       // base
+        dataWindow.min.x -
+        dataWindow.min.y * width),
+      sizeof(rPixels[0][0]) * 1,     // xStride
+      sizeof(rPixels[0][0]) * width, // yStride
+      1, 1,                          // x/y sampling
+      0.0));                         // fillValue
+
+  // green
+  frameBuffer.insert("G",            // name
+    Imf::Slice(Imf::HALF,            // type
+      (char*)(&gPixels[0][0] -       // base
+        dataWindow.min.x -
+        dataWindow.min.y * width),
+      sizeof(gPixels[0][0]) * 1,     // xStride
+      sizeof(gPixels[0][0]) * width, // yStride
+      1, 1,                          // x/y sampling
+      0.0));                         // fillValue
+
+  // blue
+  frameBuffer.insert("B",            // name
+    Imf::Slice(Imf::HALF,            // type
+      (char*)(&bPixels[0][0] -       // base
+        dataWindow.min.x -
+        dataWindow.min.y * width),
+      sizeof(bPixels[0][0]) * 1,     // xStride
+      sizeof(bPixels[0][0]) * width, // yStride
+      1, 1,                          // x/y sampling
+      0.0));                         // fillValue
+
+  // alpha
+  if (has_alpha) {
+    aPixels.resizeErase(height, width);
+
+    frameBuffer.insert("A",            // name
+      Imf::Slice(Imf::HALF,            // type
+        (char*)(&aPixels[0][0] -       // base
+          dataWindow.min.x -
+          dataWindow.min.y * width),
+        sizeof(aPixels[0][0]) * 1,     // xStride
+        sizeof(aPixels[0][0]) * width, // yStride
+        1, 1,                          // x/y sampling
+        1.0));                         // fillValue
+  }
+
+  file.setFrameBuffer(frameBuffer);
+  file.readPixels(dataWindow.min.y, dataWindow.max.y);
+
+  // copy data from Array2D back to RGBA interleaved buffer pixels
+  int i = 0;
+  float* p = pixels->ptr();
+  for (int y = 0; y < height; y++)
+  {
+    for (int x = 0; x < width; x++)
+    {
+      p[i++] = rPixels[y][x];
+      p[i++] = gPixels[y][x];
+      p[i++] = bPixels[y][x];
+      if (has_alpha) {
+        p[i++] = aPixels[y][x];
+      }
+    }
+  }
+
+  return true;
+}
+
+bool exr_read_32(Imf::InputFile file, Imath::Box2i dataWindow, ctl::dpx::fb<float>* pixels)
+{
+  // exr read code based on example documentation
+  // https://openexr.com/en/latest/ReadingAndWritingImageFiles.html#reading-an-image-file
+
+  Imf::FrameBuffer frameBuffer;
+
+  Imf::Array2D<float> rPixels;
+  Imf::Array2D<float> gPixels;
+  Imf::Array2D<float> bPixels;
+  Imf::Array2D<float> aPixels;
+
+  int width = dataWindow.max.x - dataWindow.min.x + 1;
+  int height = dataWindow.max.y - dataWindow.min.y + 1;
+
+  bool has_alpha = file.header().channels().findChannel("A");
+
+  rPixels.resizeErase(height, width);
+  gPixels.resizeErase(height, width);
+  bPixels.resizeErase(height, width);
+
+  // red
+  frameBuffer.insert("R",            // name
+    Imf::Slice(Imf::FLOAT,            // type
+      (char*)(&rPixels[0][0] -       // base
+        dataWindow.min.x -
+        dataWindow.min.y * width),
+      sizeof(rPixels[0][0]) * 1,     // xStride
+      sizeof(rPixels[0][0]) * width, // yStride
+      1, 1,                          // x/y sampling
+      0.0));                         // fillValue
+
+  // green
+  frameBuffer.insert("G",            // name
+    Imf::Slice(Imf::FLOAT,            // type
+      (char*)(&gPixels[0][0] -       // base
+        dataWindow.min.x -
+        dataWindow.min.y * width),
+      sizeof(gPixels[0][0]) * 1,     // xStride
+      sizeof(gPixels[0][0]) * width, // yStride
+      1, 1,                          // x/y sampling
+      0.0));                         // fillValue
+
+  // blue
+  frameBuffer.insert("B",            // name
+    Imf::Slice(Imf::FLOAT,            // type
+      (char*)(&bPixels[0][0] -       // base
+        dataWindow.min.x -
+        dataWindow.min.y * width),
+      sizeof(bPixels[0][0]) * 1,     // xStride
+      sizeof(bPixels[0][0]) * width, // yStride
+      1, 1,                          // x/y sampling
+      0.0));                         // fillValue
+
+  // alpha
+  if (has_alpha) {
+    aPixels.resizeErase(height, width);
+
+    frameBuffer.insert("A",            // name
+      Imf::Slice(Imf::FLOAT,            // type
+        (char*)(&aPixels[0][0] -       // base
+          dataWindow.min.x -
+          dataWindow.min.y * width),
+        sizeof(aPixels[0][0]) * 1,     // xStride
+        sizeof(aPixels[0][0]) * width, // yStride
+        1, 1,                          // x/y sampling
+        1.0));                         // fillValue
+  }
+
+  file.setFrameBuffer(frameBuffer);
+  file.readPixels(dataWindow.min.y, dataWindow.max.y);
+
+  // copy data from Array2D back to RGBA interleaved buffer pixels
+  int i = 0;
+  float* p = pixels->ptr();
+  for (int y = 0; y < height; y++)
+  {
+    for (int x = 0; x < width; x++)
+    {
+      p[i++] = rPixels[y][x];
+      p[i++] = gPixels[y][x];
+      p[i++] = bPixels[y][x];
+      if (has_alpha) {
+        p[i++] = aPixels[y][x];
+      }
+    }
+  }
+
+  return true;
+}
+
 bool exr_read(const char *name, float scale, ctl::dpx::fb<float> *pixels,
               format_t *format) {
 	std::ifstream ins;
@@ -92,67 +274,45 @@ bool exr_read(const char *name, float scale, ctl::dpx::fb<float> *pixels,
 	//////////////////////////
     
     Imf::InputFile file(name);
-    Imath::Box2i dw = file.header().dataWindow();
+    Imath::Box2i dataWindow = file.header().dataWindow();
+    format->data_window = dataWindow;
+    format->is_data_window_set = true;
     
     if (file.header().channels().begin().channel().type == Imf::HALF)
         format->src_bps=16;
     else
         format->src_bps=32;
         
-    int width = dw.max.x - dw.min.x + 1;
-    int height = dw.max.y - dw.min.y + 1;
+    int width = dataWindow.max.x - dataWindow.min.x + 1;
+    int height = dataWindow.max.y - dataWindow.min.y + 1;
 
     bool has_alpha = file.header().channels().findChannel("A");
 
     pixels->init(width, height, has_alpha ? 4 : 3);
-    Imf::PixelType pixelType = Imf::FLOAT;
-    
-    int xstride = sizeof (*pixels->ptr()) * pixels->depth();
-    int ystride = sizeof (*pixels->ptr()) * pixels->depth() * pixels->width();
-    
-    Imf::FrameBuffer frameBuffer;
-    frameBuffer.insert ("R",
-                        Imf::Slice (pixelType,
-                                    (char *) pixels->ptr(),
-                                    xstride, ystride,
-                                    1, 1,
-                                    0.0));
-    
-    frameBuffer.insert ("G",
-                        Imf::Slice (pixelType,
-                                    (char *) (pixels->ptr()+1),
-                                    xstride, ystride,
-                                    1, 1,
-                                    0.0));
-    
-    frameBuffer.insert ("B",
-                        Imf::Slice (pixelType,
-                                    (char *) (pixels->ptr()+2),
-                                    xstride, ystride,
-                                    1, 1,
-                                    0.0));
-    
-    if (has_alpha){
-        frameBuffer.insert ("A",
-                            Imf::Slice (pixelType,
-                                        (char *) (pixels->ptr()+3),
-                                        xstride, ystride,
-                                        1, 1,
-                                        1.0));
+    Imf::PixelType pixelType = format->src_bps == 16 ? Imf::HALF : Imf::FLOAT;
+
+    if (pixelType == Imf::HALF)
+    {
+      exr_read_16(file, dataWindow, pixels);
     }
+    else if (pixelType == Imf::FLOAT)
+    {
+      exr_read_32(file, dataWindow, pixels);
+    }      
     
-    file.setFrameBuffer(frameBuffer);
-    file.readPixels(dw.min.y, dw.max.y);
-    
+    // scale pixels if a scale value has been specified
 	if(scale==0.0 || scale==1.0) {
 		return 1;
 	}
+    else
+    {
+      float* p = pixels->ptr();
+      for (uint64_t i = 0; i < pixels->count(); i++) {
+        *p = *p * scale;
+        p++;
+      }
+    }
 
-	float *p=pixels->ptr();
-	for(uint64_t i=0; i<pixels->count(); i++) {
-		*p=*p*scale;
-		p++;
-	}
 	return 1;
 }
 
@@ -166,8 +326,8 @@ void exr_write(const char *name, float scale, const ctl::dpx::fb<float> &pixels,
     bool is_half = format->bps == 16 ? true : false;
 
     int depth = pixels.depth();
-    float width = pixels.width();
-    float height = pixels.height();
+    int width = pixels.width();
+    int height = pixels.height();
     float const* pixelPtr = pixels.ptr();
 
     // Do any scaling on a full float buffer
@@ -185,11 +345,33 @@ void exr_write(const char *name, float scale, const ctl::dpx::fb<float> &pixels,
         pixelPtr = scaled_pixels.ptr();
     }
 
+    // follow example exr writing code in documenation here:
+    // https://openexr.com/en/latest/ReadingAndWritingImageFiles.html#writing-a-cropped-image
+
     // Generate header
     Imf::PixelType pixelType = is_half ? Imf::HALF : Imf::FLOAT;
 
     Imf::Header header(width, height);
     header.compression() = (Imf::Compression)compression->exrCompressionScheme;
+    Imath::Box2i dataWindow;
+    if (format->is_data_window_set)
+    {
+      dataWindow = format->data_window;
+    }
+    else
+    {   
+      dataWindow.min.x = 0;
+      dataWindow.min.y = 0;
+      dataWindow.max.x = width - 1;
+      dataWindow.max.y = height - 1;
+    }
+
+#define USE_OLD_EXR_WRITE_CODE 1
+#if USE_OLD_EXR_WRITE_CODE
+    // do not set datawindow in output file
+#else
+    header.dataWindow() = dataWindow;
+#endif
 
     header.channels().insert("R", Imf::Channel(pixelType));
     header.channels().insert("G", Imf::Channel(pixelType));
@@ -213,17 +395,71 @@ void exr_write(const char *name, float scale, const ctl::dpx::fb<float> &pixels,
            *(out++) = half(*(fIn++));
         }
 
+#if USE_OLD_EXR_WRITE_CODE
         half const* halfPixelPtr = half_pixels.ptr();
 
         int xstride = sizeof(*halfPixelPtr) * depth;
         int ystride = sizeof(*halfPixelPtr) * depth * width;
+#else
+        Imf::Array2D<half> rPixels;
+        Imf::Array2D<half> gPixels;
+        Imf::Array2D<half> bPixels;
+        Imf::Array2D<half> aPixels;
+
+        rPixels.resizeErase(height, width);
+        gPixels.resizeErase(height, width);
+        bPixels.resizeErase(height, width); 
+
+        // copy data into Array2D from halfPixelPtr
+        int i = 0;
+        half* p = half_pixels.ptr();
+        for (int y = 0; y < height; y++)
+        {
+          for (int x = 0; x < width; x++)
+          {
+            rPixels[y][x] = p[i++];
+            gPixels[y][x] = p[i++];
+            bPixels[y][x] = p[i++];
+            if (depth == 4) {
+              aPixels[y][x] = p[i++];
+            }
+          }
+        }
+#endif
 
         // Insert the half buffer into the framebuffer
-        frameBuffer.insert("R", Imf::Slice(pixelType, (char*)halfPixelPtr, xstride, ystride));
+#if USE_OLD_EXR_WRITE_CODE
+        frameBuffer.insert("R", Imf::Slice(pixelType, (char*) halfPixelPtr, xstride, ystride));
         frameBuffer.insert("G", Imf::Slice(pixelType, (char*)(halfPixelPtr + 1), xstride, ystride));
         frameBuffer.insert("B", Imf::Slice(pixelType, (char*)(halfPixelPtr + 2), xstride, ystride));
         if (depth == 4)
             frameBuffer.insert("A", Imf::Slice(pixelType, (char*)(halfPixelPtr + 3), xstride, ystride));
+#else
+        frameBuffer.insert(
+          "R", // name
+          Imf::Slice(
+            Imf::HALF,                        // type
+            (char*)&rPixels[0][0],            // base
+            sizeof(rPixels[0][0]) * 1,        // xStride
+            sizeof(rPixels[0][0]) * width));  // yStride
+
+        frameBuffer.insert(
+          "G", // name
+          Imf::Slice(
+            Imf::HALF,                        // type
+            (char*)&gPixels[0][0],            // base
+            sizeof(gPixels[0][0]) * 1,        // xStride
+            sizeof(gPixels[0][0])* width));  // yStride
+
+        frameBuffer.insert(
+          "B", // name
+          Imf::Slice(
+            Imf::HALF,                        // type
+            (char*)&bPixels[0][0],            // base
+            sizeof(bPixels[0][0]) * 1,        // xStride
+            sizeof(bPixels[0][0])* width));  // yStride
+#endif
+
     }
     else {
         // No conversion needed so insert the float buffer into the frambuffer
@@ -237,9 +473,15 @@ void exr_write(const char *name, float scale, const ctl::dpx::fb<float> &pixels,
             frameBuffer.insert("A", Imf::Slice(pixelType, (char*)(pixelPtr + 3), xstride, ystride));
     }
 
-    file.setFrameBuffer(frameBuffer);
-    file.writePixels(height);
 
+    file.setFrameBuffer(frameBuffer);
+#if USE_OLD_EXR_WRITE_CODE
+    file.writePixels(height);
+#else
+    file.writePixels(dataWindow.max.y - dataWindow.min.y + 1);
+#endif
+
+    return;
 }
 
 #else
