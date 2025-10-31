@@ -12,15 +12,26 @@ on:
 
 jobs:
 
-  build:
+  build-aces-1_0_1:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build --rm -f Dockerfile_ACES_test -t ctl:latest .
+      run: docker build --rm -f Dockerfile_ACES_1_0_1_test -t ctl:latest .
 
     - name: Run the Docker image
       run: docker run ctl:latest
 
+  build-aces-1_3:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build --rm -f Dockerfile_ACES_1_3_test -t ctl:latest .
+
+    - name: Run the Docker image
+      run: docker run ctl:latest
