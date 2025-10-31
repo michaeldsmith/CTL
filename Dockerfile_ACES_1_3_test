@@ -65,4 +65,4 @@ RUN make install
 
 # finalize docker environment
 WORKDIR /usr/src/CTL
-CMD bash /usr/src/CTL/resources/test/scripts/test_aces.sh
+CMD bash /usr/src/CTL/resources/test/scripts/test_aces_v1.3.sh
