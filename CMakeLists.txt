@@ -23,7 +23,7 @@ set(CMAKE_CXX_FLAGS_ASAN
   FORCE)
 
 set(CMAKE_CXX_FLAGS_UBSAN
-  "-fsanitize=undefined -fno-optimize-sibling-calls -fno-omit-frame-pointer -g -O1"
+  "-fsanitize=undefined -fno-sanitize-recover -fno-optimize-sibling-calls -fno-omit-frame-pointer -g -O1"
   CACHE STRING "Flags used by the C++ compiler during UndefinedBehaviorSanitizer builds."
   FORCE)
 
