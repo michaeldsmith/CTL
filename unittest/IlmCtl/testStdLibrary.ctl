@@ -75,6 +75,8 @@ equalWithAbsErr_f44 (float a[4][4], float b[4][4], float e)
 void
 testEqualWithAbsErr()
 {
+	print ("testEqualWithAbsErr()\n");
+
     assert (equalWithAbsErr (1.0, 0.995, 0.01));
     assert (equalWithAbsErr (1.0, 1.005, 0.01));
     assert (!equalWithAbsErr (1.0, 0.985, 0.01));
@@ -122,6 +124,8 @@ testEqualWithAbsErr()
 	assert (!equalWithAbsErr_f3 (v1, v2, 0));
 	assert (equalWithAbsErr_f3 (v1, v2, 0.1));
     }
+
+	print ("ok\n");
 }
 
 
@@ -151,6 +155,8 @@ testChangeBuiltinConstants ()
 void
 testBuiltinConstants ()
 {
+	print ("testBuiltinConstants()\n");
+
     assert (equalWithAbsErr (M_E,  2.718281, 0.000001));
     assert (equalWithAbsErr (M_PI, 3.141593, 0.000001));
 
@@ -166,12 +172,15 @@ testBuiltinConstants ()
     assert (INT_MIN <= -2147483648);
 
     assert (UINT_MAX >= 4294967295);
+	print ("ok\n");
 }
 
 
 void
 testClassification ()
 {
+	print ("testClassification()\n");
+
     assert (!isfinite_f (FLT_POS_INF));
     assert (!isnormal_f (FLT_POS_INF));
     assert ( isinf_f    (FLT_POS_INF));
@@ -225,6 +234,7 @@ testClassification ()
     assert ( isnormal_h (1.0h));
     assert (!isinf_h    (1.0h));
     assert (!isnan_h    (1.0h));
+	print ("ok\n");
 }
 
 
