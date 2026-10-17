@@ -1,10 +1,12 @@
 set(SOURCES
 	main.cpp
-	testCppCall.cpp
+	testBoolStorage.cpp
+  testCppCall.cpp
 	testEndOfLine.cpp
 	testExamples.cpp
 	testHugeInit.cpp
 	testParser.cpp
+	testPathParser.cpp
 	testVarying.cpp
 	testVaryingLookup.cpp
 	testVaryingReturn.cpp
@@ -37,6 +39,7 @@ add_test(IlmCtl IlmCtlTest)
 
 file(COPY
 	common.ctl
+	testBoolStorage.ctl
 	example.ctl
 	testArray.ctl
 	testCast.ctl
@@ -61,6 +64,7 @@ file(COPY
 	testNameSpace.ctl
 	testNoName.ctl
 	testParse.ctl
+	testPathParser.ctl
 	testScope2.ctl
 	testScope.ctl
 	testStdLibrary.ctl
