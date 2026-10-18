@@ -683,6 +683,62 @@ void mkimage(ctl::dpx::fb<float> *image_buffer, const CTLResults &ctl_results, f
 	}
 }
 
+// Apply the same CTL chain to an in-memory buffer for image and pixel modes.
+void transform_pixels(const CTLOperations &ctl_operations,
+                      const CTLParameters &global_parameters,
+                      ctl::dpx::fb<float> &image_buffer, format_t *image_format)
+{
+	CTLOperations::const_iterator operations_iter;
+	ctl_operation_t ctl_operation;
+	CTLParameters::const_iterator parameters_iter;
+	uint32_t j;
+	CTLResults ctl_results;
+
+	if (image_buffer.depth() > 0)
+	{
+		ctl_results.push_back(mkresult("rIn", "c00In", image_buffer, 0));
+	}
+	if (image_buffer.depth() > 1)
+	{
+		ctl_results.push_back(mkresult("gIn", "c01In", image_buffer, 1));
+	}
+	if (image_buffer.depth() > 2)
+	{
+		ctl_results.push_back(mkresult("bIn", "c02In", image_buffer, 2));
+	}
+	if (image_buffer.depth() > 3)
+	{
+		ctl_results.push_back(mkresult("aIn", "c03In", image_buffer, 3));
+	}
+
+	char name[16];
+
+	for (j = 4; j < image_buffer.depth(); j++)
+	{
+		memset(name, 0, sizeof(name));
+		snprintf(name, sizeof(name) - 1, "c%02dIn", j);
+		ctl_results.push_back(mkresult(name, NULL, image_buffer, j));
+	}
+
+	for (operations_iter = ctl_operations.begin(); operations_iter != ctl_operations.end(); operations_iter++)
+	{
+		ctl_operation = *operations_iter;
+		for (parameters_iter = global_parameters.begin(); parameters_iter != global_parameters.end(); parameters_iter++)
+		{
+			add_parameter_value_to_ctl_results(&ctl_results, *parameters_iter);
+		}
+		for (parameters_iter = ctl_operation.local.begin(); parameters_iter != ctl_operation.local.end(); parameters_iter++)
+		{
+			add_parameter_value_to_ctl_results(&ctl_results, *parameters_iter);
+		}
+
+		// Output is used to pass output parameters from script to the next.
+		run_ctl_transform(*operations_iter, &ctl_results, image_buffer.pixels());
+	}
+
+	mkimage(&image_buffer, ctl_results, image_format);
+}
+
 // Currently we have no thread support. This would be nice but we will
 // deal with it on a per-input-file basis. The format is passed in as 
 // a pointer since there are fields in it that may be filled out by the
@@ -699,7 +755,6 @@ void transform(const char *inputFile, const char *outputFile,
 	ctl_operation_t ctl_operation;
 	CTLParameters::const_iterator parameters_iter;
 	uint8_t i;
-	uint32_t j;
 	std::string error;
 	ctl::dpx::fb<float> image_buffer;
 
@@ -787,51 +842,7 @@ void transform(const char *inputFile, const char *outputFile,
 		image_format->bps = image_format->src_bps;
 	}
 
-	CTLResults ctl_results;
-
-	if (image_buffer.depth() > 0)
-	{
-		ctl_results.push_back(mkresult("rIn", "c00In", image_buffer, 0));
-	}
-	if (image_buffer.depth() > 1)
-	{
-		ctl_results.push_back(mkresult("gIn", "c01In", image_buffer, 1));
-	}
-	if (image_buffer.depth() > 2)
-	{
-		ctl_results.push_back(mkresult("bIn", "c02In", image_buffer, 2));
-	}
-	if (image_buffer.depth() > 3)
-	{
-		ctl_results.push_back(mkresult("aIn", "c03In", image_buffer, 3));
-	}
-
-	char name[16];
-
-	for (j = 4; j < image_buffer.depth(); j++)
-	{
-		memset(name, 0, sizeof(name));
-		snprintf(name, sizeof(name) - 1, "c%02dIn", j);
-		ctl_results.push_back(mkresult(name, NULL, image_buffer, j));
-	}
-
-	for (operations_iter = ctl_operations.begin(); operations_iter != ctl_operations.end(); operations_iter++)
-	{
-		ctl_operation = *operations_iter;
-		for (parameters_iter = global_parameters.begin(); parameters_iter != global_parameters.end(); parameters_iter++)
-		{
-			add_parameter_value_to_ctl_results(&ctl_results, *parameters_iter);
-		}
-		for (parameters_iter = ctl_operation.local.begin(); parameters_iter != ctl_operation.local.end(); parameters_iter++)
-		{
-			add_parameter_value_to_ctl_results(&ctl_results, *parameters_iter);
-		}
-
-		// Output is used to pass output parameters from script to the next.
-		run_ctl_transform(*operations_iter, &ctl_results, image_buffer.pixels());
-	}
-
-	mkimage(&image_buffer, ctl_results, image_format);
+	transform_pixels(ctl_operations, global_parameters, image_buffer, image_format);
 
 	if (output_scale != 0.0)
 	{

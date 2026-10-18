@@ -55,6 +55,7 @@
 #if !defined(CTLRENDER_TRANSFORM_INCLUDE)
 #define CTLRENDER_TRANSFORM_INCLUDE
 
+#include <dpx.hh>
 #include <list>
 #include <cstring>
 #include "main.hh"
@@ -97,5 +98,10 @@ void transform(const char *inputFile, const char *outputFile,
 		       format_t *format,
                Compression *compression,
 		       const CTLOperations &ops, const CTLParameters &global);
+
+// Transform a caller-populated pixel buffer without file I/O.
+// The buffer depth and format descriptor reflect the CTL output channels.
+void transform_pixels(const CTLOperations &ops, const CTLParameters &global,
+                      ctl::dpx::fb<float> &image_buffer, format_t *format);
 
 #endif

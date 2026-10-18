@@ -209,6 +209,8 @@ int main(int argc, const char **argv)
 		float output_scale = 0.0;
 		bool force_overwrite_output_file = FALSE;
 		bool noalpha = FALSE;
+		int pixel_number_of_channels = 0; // Zero means -pixel was not specified.
+		float pixel_values[4] = {0, 0, 0, 0};
 
 		int start_argc = argc;
 
@@ -446,6 +448,34 @@ int main(int argc, const char **argv)
 			{
 				noalpha = TRUE;
 			}
+			else if (!strcmp(argv[0], "-pixel"))
+			{
+				if (argc < 2)
+				{
+					THROW(Iex::ArgExc, "-pixel requires r,g,b[,a]. See '-help pixel'.");
+				}
+				const char *src = argv[1];
+				char *end = NULL;
+				pixel_number_of_channels = 0;
+				while (pixel_number_of_channels < 4)
+				{
+					pixel_values[pixel_number_of_channels] = strtof(src, &end);
+					if (end == src || (*end != '\0' && *end != ','))
+					{
+						THROW(Iex::ArgExc, "-pixel: invalid value '" << argv[1]
+						      << "'. Expected comma-separated floating-point values.");
+					}
+					pixel_number_of_channels++;
+					if (*end == '\0') break;
+					src = end + 1;
+				}
+				if (pixel_number_of_channels < 3 || *end != '\0')
+				{
+					THROW(Iex::ArgExc, "-pixel requires 3 or 4 values (r,g,b[,a]).");
+				}
+				argv++;
+				argc--;
+			}
 			else if (!strncmp(argv[0], "-", 1))
 			{
 				fprintf(stderr,
@@ -465,6 +495,46 @@ int main(int argc, const char **argv)
 		if (new_ctl_operation.filename != NULL)
 		{
 			ctl_operations.push_back(new_ctl_operation);
+		}
+
+		// Transform one command-line pixel without reading or writing files.
+		if (pixel_number_of_channels > 0)
+		{
+			if (!input_image_files.empty())
+			{
+				THROW(Iex::ArgExc, "-pixel cannot be combined with positional file arguments.");
+			}
+			if (ctl_operations.empty())
+			{
+				THROW(Iex::ArgExc, "-pixel requires at least one -ctl script.");
+			}
+
+			ctl::dpx::fb<float> pixel;
+			pixel.init(1, 1, pixel_number_of_channels);
+			for (int i = 0; i < pixel_number_of_channels; i++)
+			{
+				pixel.ptr()[i] = pixel_values[i] * (input_scale == 0.0f ? 1.0f : input_scale);
+			}
+			format_t pixel_format;
+			transform_pixels(ctl_operations, global_ctl_parameters, pixel, &pixel_format);
+			if (pixel.depth() != 3 && pixel.depth() != 4)
+			{
+				THROW(Iex::ArgExc, "-pixel requires RGB or RGBA output from the CTL chain.");
+			}
+			if (output_scale != 0.0f)
+			{
+				for (uint32_t i = 0; i < pixel.depth(); i++)
+				{
+					pixel.ptr()[i] /= output_scale;
+				}
+			}
+
+			const float *out = pixel.ptr();
+			fprintf(stdout, "R=%.7f  G=%.7f  B=%.7f", out[0], out[1], out[2]);
+			if (pixel.depth() == 4 && !noalpha)
+				fprintf(stdout, "  A=%.7f", out[3]);
+			fprintf(stdout, "\n");
+			return 0;
 		}
 
 		if (input_image_files.size() < 2)
