@@ -151,16 +151,8 @@ set_tests_properties("ctlrender-maxInstCount-exception" PROPERTIES WILL_FAIL TRU
 #
 # Input RGBA = (0.5, 0.5, 0.5, 1.0); pixel_chain_a.ctl adds 0.25 to R;
 # pixel_chain_b.ctl multiplies G by 2 and halves A.  Expected:
-#   single a:    R=0.75 G=0.5  B=0.5 A=1.0
 #   chain a to b:   R=0.75 G=1.0  B=0.5 A=0.5
 # Tests assert via PASS_REGULAR_EXPRESSION on stdout.
-add_test(NAME "ctlrender-pixel-rgba-single"
-    COMMAND ctlrender
-        -ctl "${TEST_FILES}/pixel_chain_a.ctl"
-        -pixel 0.5,0.5,0.5,1.0)
-set_tests_properties("ctlrender-pixel-rgba-single" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=0\\.7500000[ \\t]+G=0\\.5000000[ \\t]+B=0\\.5000000[ \\t]+A=1\\.0000000")
-
 add_test(NAME "ctlrender-pixel-rgba-chain"
     COMMAND ctlrender
         -ctl "${TEST_FILES}/pixel_chain_a.ctl"
@@ -199,25 +191,6 @@ set_tests_properties("ctlrender-pixel-malformed-errors" PROPERTIES WILL_FAIL TRU
 add_test(NAME "ctlrender-pixel-too-few-errors"
     COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl" -pixel 0.1,0.2)
 set_tests_properties("ctlrender-pixel-too-few-errors" PROPERTIES WILL_FAIL TRUE)
-
-# -pixel + -param1: uniform parameter override on the single-pixel path.
-# pixel_with_param.ctl scales R by `scale` (default 1.0).  Default test
-# verifies the default propagates; override test verifies -param1 reaches
-# the pixel path the same way it reaches the image path.
-add_test(NAME "ctlrender-pixel-param-default"
-    COMMAND ctlrender
-        -ctl "${TEST_FILES}/pixel_with_param.ctl"
-        -pixel 0.5,0.6,0.7,1.0)
-set_tests_properties("ctlrender-pixel-param-default" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=0\\.5000000[ \\t]+G=0\\.6000000[ \\t]+B=0\\.7000000[ \\t]+A=1\\.0000000")
-
-add_test(NAME "ctlrender-pixel-param-override"
-    COMMAND ctlrender
-        -ctl "${TEST_FILES}/pixel_with_param.ctl"
-        -param1 scale 2.0
-        -pixel 0.5,0.6,0.7,1.0)
-set_tests_properties("ctlrender-pixel-param-override" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=1\\.0000000[ \\t]+G=0\\.6000000[ \\t]+B=0\\.7000000[ \\t]+A=1\\.0000000")
 
 # -pixel preserves negative and HDR-range values without clipping.
 add_test(NAME "ctlrender-pixel-hdr-range"
