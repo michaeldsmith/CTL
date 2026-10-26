@@ -150,24 +150,25 @@ set_tests_properties("ctlrender-maxInstCount-exception" PROPERTIES WILL_FAIL TRU
 # -pixel mode: one pixel on CLI, result to stdout, no file I/O.
 #
 # Input RGBA = (0.5, 0.5, 0.5, 1.0); pixel_chain_a.ctl adds 0.25 to R;
-# pixel_chain_b.ctl multiplies G by 2 and halves A.  Expected:
-#   chain a to b:   R=0.75 G=1.0  B=0.5 A=0.5
+# pixel_with_param.ctl then multiplies R by 2.  Expected:
+#   R=1.5 G=0.5 B=0.5 A=1.0
 # Tests assert via PASS_REGULAR_EXPRESSION on stdout.
 add_test(NAME "ctlrender-pixel-rgba-chain"
     COMMAND ctlrender
         -ctl "${TEST_FILES}/pixel_chain_a.ctl"
-        -ctl "${TEST_FILES}/pixel_chain_b.ctl"
+        -ctl "${TEST_FILES}/pixel_with_param.ctl"
+        -param1 scale 2
         -pixel 0.5,0.5,0.5,1.0)
 set_tests_properties("ctlrender-pixel-rgba-chain" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=0\\.7500000[ \\t]+G=1\\.0000000[ \\t]+B=0\\.5000000[ \\t]+A=0\\.5000000")
+    PASS_REGULAR_EXPRESSION "R=1\\.5000000[ \\t]+G=0\\.5000000[ \\t]+B=0\\.5000000[ \\t]+A=1\\.0000000")
 
-# RGB (3 values) depth-3 input; expected stdout has no 'A=' component.
+# RGB input/output with values exactly representable by unity.ctl's half channels.
 add_test(NAME "ctlrender-pixel-rgb-only"
     COMMAND ctlrender
-        -ctl "${TEST_FILES}/pixel_rgb_only.ctl"
-        -pixel 0.1,0.2,0.3)
+        -ctl "${TEST_FILES}/unity.ctl"
+        -pixel 0.5,0.25,0.125)
 set_tests_properties("ctlrender-pixel-rgb-only" PROPERTIES
-    PASS_REGULAR_EXPRESSION "^R=0\\.2000000[ \\t]+G=0\\.4000000[ \\t]+B=0\\.6000000[ \\t]*\n?$")
+    PASS_REGULAR_EXPRESSION "^R=0\\.5000000[ \\t]+G=0\\.2500000[ \\t]+B=0\\.1250000[ \\t]*\n?$")
 
 # Error: -pixel without -ctl must fail.
 add_test(NAME "ctlrender-pixel-no-ctl-errors"
@@ -177,19 +178,19 @@ set_tests_properties("ctlrender-pixel-no-ctl-errors" PROPERTIES WILL_FAIL TRUE)
 # Error: -pixel mixed with a positional input file must fail.
 add_test(NAME "ctlrender-pixel-positional-conflict-errors"
     COMMAND ctlrender
-        -ctl "${TEST_FILES}/pixel_chain_a.ctl"
+        -ctl "${TEST_FILES}/unity_with_alpha.ctl"
         -pixel 0.1,0.2,0.3,1.0
         "${TEST_FILES}/colorbars_nuke_rgba_exr32.exr")
 set_tests_properties("ctlrender-pixel-positional-conflict-errors" PROPERTIES WILL_FAIL TRUE)
 
 # Error: non-numeric value in -pixel must fail.
 add_test(NAME "ctlrender-pixel-malformed-errors"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl" -pixel 0.1,abc,0.3)
+    COMMAND ctlrender -ctl "${TEST_FILES}/unity.ctl" -pixel 0.1,abc,0.3)
 set_tests_properties("ctlrender-pixel-malformed-errors" PROPERTIES WILL_FAIL TRUE)
 
 # Error: too few values (needs 3 or 4).
 add_test(NAME "ctlrender-pixel-too-few-errors"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl" -pixel 0.1,0.2)
+    COMMAND ctlrender -ctl "${TEST_FILES}/unity.ctl" -pixel 0.1,0.2)
 set_tests_properties("ctlrender-pixel-too-few-errors" PROPERTIES WILL_FAIL TRUE)
 
 # -pixel preserves negative and HDR-range values without clipping.
@@ -202,23 +203,24 @@ set_tests_properties("ctlrender-pixel-hdr-range" PROPERTIES
 
 # Scaling follows floating-point image I/O: multiply before CTL, divide after.
 add_test(NAME "ctlrender-pixel-input-scale"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_rgb_only.ctl"
-        -input_scale 2 -pixel 0.5,0.25,0.1)
+    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl"
+        -input_scale 2 -pixel 0.5,0.25,0.125,1)
 set_tests_properties("ctlrender-pixel-input-scale" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=1[.]1000000  G=0[.]7000000  B=0[.]5000000")
+    PASS_REGULAR_EXPRESSION "R=1[.]2500000  G=0[.]5000000  B=0[.]2500000  A=2[.]0000000")
 
 add_test(NAME "ctlrender-pixel-output-scale"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_rgb_only.ctl"
-        -output_scale 2 -pixel 0.5,0.25,0.1)
+    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl"
+        -output_scale 2 -pixel 0.5,0.25,0.125,1)
 set_tests_properties("ctlrender-pixel-output-scale" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=0[.]3000000  G=0[.]2250000  B=0[.]2000000")
+    PASS_REGULAR_EXPRESSION "R=0[.]3750000  G=0[.]1250000  B=0[.]0625000  A=0[.]5000000")
 
 add_test(NAME "ctlrender-pixel-scales-rgba-chain"
     COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl"
-        -ctl "${TEST_FILES}/pixel_chain_b.ctl"
+        -ctl "${TEST_FILES}/pixel_with_param.ctl"
+        -param1 scale 2
         -input_scale 2 -output_scale 4 -pixel 0.5,0.25,0.125,1)
 set_tests_properties("ctlrender-pixel-scales-rgba-chain" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=0[.]3125000  G=0[.]2500000  B=0[.]0625000  A=0[.]2500000")
+    PASS_REGULAR_EXPRESSION "R=0[.]6250000  G=0[.]1250000  B=0[.]0625000  A=0[.]5000000")
 
 add_test(NAME "ctlrender-pixel-zero-scales"
     COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl"
@@ -241,33 +243,35 @@ set_tests_properties("ctlrender-pixel-local-overrides-global" PROPERTIES
 
 # Report the actual output channels, even when the script changes depth.
 add_test(NAME "ctlrender-pixel-drop-alpha"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_rgb_only.ctl" -pixel 0.1,0.2,0.3,1)
+    COMMAND ctlrender -ctl "${TEST_FILES}/unity.ctl" -pixel 0.5,0.25,0.125,1)
 set_tests_properties("ctlrender-pixel-drop-alpha" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=0[.]2000000  G=0[.]4000000  B=0[.]6000000"
+    PASS_REGULAR_EXPRESSION "R=0[.]5000000  G=0[.]2500000  B=0[.]1250000"
     FAIL_REGULAR_EXPRESSION "A=")
 
+# Supply alpha as a parameter while the -pixel argument remains RGB.
 add_test(NAME "ctlrender-pixel-add-alpha"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_add_alpha.ctl" -pixel 0.5,0.25,0.125)
+    COMMAND ctlrender -ctl "${TEST_FILES}/unity_with_alpha.ctl"
+        -param1 aIn 1 -pixel 0.5,0.25,0.125)
 set_tests_properties("ctlrender-pixel-add-alpha" PROPERTIES
     PASS_REGULAR_EXPRESSION "R=0[.]5000000  G=0[.]2500000  B=0[.]1250000  A=1[.]0000000")
 
 add_test(NAME "ctlrender-pixel-noalpha"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl"
+    COMMAND ctlrender -ctl "${TEST_FILES}/unity_with_alpha.ctl"
         -noalpha -pixel 0.5,0.25,0.125,1)
 set_tests_properties("ctlrender-pixel-noalpha" PROPERTIES
-    PASS_REGULAR_EXPRESSION "R=0[.]7500000  G=0[.]2500000  B=0[.]1250000"
+    PASS_REGULAR_EXPRESSION "R=0[.]5000000  G=0[.]2500000  B=0[.]1250000"
     FAIL_REGULAR_EXPRESSION "A=")
 
 add_test(NAME "ctlrender-pixel-missing-alpha-errors"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_chain_a.ctl" -pixel 0.5,0.25,0.125)
+    COMMAND ctlrender -ctl "${TEST_FILES}/unity_with_alpha.ctl" -pixel 0.5,0.25,0.125)
 set_tests_properties("ctlrender-pixel-missing-alpha-errors" PROPERTIES WILL_FAIL TRUE)
 
 add_test(NAME "ctlrender-pixel-missing-argument-errors"
-    COMMAND ctlrender -ctl "${TEST_FILES}/pixel_rgb_only.ctl" -pixel)
+    COMMAND ctlrender -ctl "${TEST_FILES}/unity.ctl" -pixel)
 set_tests_properties("ctlrender-pixel-missing-argument-errors" PROPERTIES WILL_FAIL TRUE)
 
 foreach(value IN ITEMS "0.1,0.2,0.3,0.4,0.5" "0.1,0.2,0.3," "0.1,,0.3" "0.1,0.2,0.3x")
     add_test(NAME "ctlrender-pixel-invalid-${value}"
-        COMMAND ctlrender -ctl "${TEST_FILES}/pixel_rgb_only.ctl" -pixel "${value}")
+        COMMAND ctlrender -ctl "${TEST_FILES}/unity.ctl" -pixel "${value}")
     set_tests_properties("ctlrender-pixel-invalid-${value}" PROPERTIES WILL_FAIL TRUE)
 endforeach()
