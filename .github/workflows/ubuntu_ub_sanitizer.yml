@@ -22,15 +22,31 @@ env:
 
 jobs:
   openexr2:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    name: OpenEXR 2 (${{ matrix.compiler }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - compiler: GCC
+            cc: gcc
+            cxx: g++
+            package: g++
+          - compiler: Clang
+            cc: clang
+            cxx: clang++
+            package: clang
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
 
     steps:
 
     - name: run apt-get update
       run: sudo apt-get -y update
+
+    - name: install ${{ matrix.compiler }}
+      run: sudo apt-get -y install ${{ matrix.package }}
 
     - name: remove openexr
       run: sudo apt-get --purge remove libopenexr-dev -y
@@ -83,15 +99,31 @@ jobs:
       run: ctest -V --output-on-failure -C ${{env.BUILD_TYPE}}
 
   openexr3:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    name: OpenEXR 3 (${{ matrix.compiler }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - compiler: GCC
+            cc: gcc
+            cxx: g++
+            package: g++
+          - compiler: Clang
+            cc: clang
+            cxx: clang++
+            package: clang
+    env:
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
 
     steps:
 
     - name: run apt-get update
       run: sudo apt-get -y update
+
+    - name: install ${{ matrix.compiler }}
+      run: sudo apt-get -y install ${{ matrix.package }}
 
     - name: remove openexr
       run: sudo apt-get --purge remove libopenexr-dev -y
